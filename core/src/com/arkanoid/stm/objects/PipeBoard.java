@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.arkanoid.stm.game.GameObject;
-import com.arkanoid.stm.game.PipeMovement;
+import com.arkanoid.stm.interfaces.GameObject;
+import com.arkanoid.stm.interfaces.PipeMovement;
 
 /**
  * Created by Grzegorz on 2015-04-04.

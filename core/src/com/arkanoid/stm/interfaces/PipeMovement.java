@@ -1,4 +1,4 @@
-package com.arkanoid.stm.game;
+package com.arkanoid.stm.interfaces;
 
 /**
  * Created by Grzegorz on 2015-04-07.

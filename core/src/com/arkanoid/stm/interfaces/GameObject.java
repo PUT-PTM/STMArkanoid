@@ -1,4 +1,4 @@
-package com.arkanoid.stm.game;
+package com.arkanoid.stm.interfaces;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
