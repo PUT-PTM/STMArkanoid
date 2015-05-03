@@ -3,9 +3,6 @@ package com.arkanoid.stm.interfaces;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-/**
- * Created by Grzegorz on 2015-04-06.
- */
 public abstract class GameObject
 {
     public abstract void drawSprite ( SpriteBatch spriteBatch);

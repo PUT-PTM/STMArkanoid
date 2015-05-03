@@ -1,14 +1,14 @@
 package com.arkanoid.stm.objects;
 
+import com.arkanoid.stm.interfaces.GameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.arkanoid.stm.interfaces.GameObject;
 
 /**
- * Created by Grzegorz on 2015-04-07.
+ * Created by grzeprza on 2015-04-07.
  */
 public class Balls extends GameObject {
 
@@ -18,13 +18,15 @@ public class Balls extends GameObject {
     private Texture texture;
     private Sprite sprite;
 
-    private Rectangle bottom, up, left, right;
+    public Rectangle vertical,horizontal;
+
+    private int velocityY=0, velocityX = 0;
 
     public Balls(PipeBoard pipeBoard)
     {
         this.pipeBoard = pipeBoard;
         ballCenter_X = pipeBoard.texture.getWidth() * 2/5 + pipeBoard.getX();
-        ballCenter_Y = pipeBoard.texture.getHeight()*5/4 + pipeBoard.getY();
+        ballCenter_Y = pipeBoard.texture.getHeight()* 5/4 + pipeBoard.getY();
 
         texture = new Texture(Gdx.files.internal("core/assets/sprites/balls/white_ball.gif"));
         sprite = new Sprite(texture);
@@ -32,10 +34,8 @@ public class Balls extends GameObject {
         sprite.setPosition(ballCenter_X, ballCenter_Y);
 
         //ball collision borders
-        bottom  = new Rectangle(sprite.getX()                    , sprite.getY(),sprite.getWidth(),1);
-        up      = new Rectangle(sprite.getX()+ sprite.getHeight(), sprite.getY(),sprite.getWidth(),1);
-        left    = new Rectangle(sprite.getX()                    , sprite.getY(),1                ,sprite.getHeight());
-        right   = new Rectangle(sprite.getX()+ sprite.getWidth() , sprite.getY(),1                ,sprite.getHeight());
+        vertical  = new Rectangle(sprite.getX()+ 1/4*sprite.getWidth(), sprite.getY()                       ,sprite.getWidth()*3/4, sprite.getHeight());
+        horizontal= new Rectangle(sprite.getX()                       ,sprite.getY()+ 1/4*sprite.getHeight(),sprite.getWidth()    , sprite.getHeight()*3/4 );
     }
 
     @Override
@@ -44,45 +44,84 @@ public class Balls extends GameObject {
     }
 
     @Override
-    public boolean action(int type, float newY) {
-        setPosition(ballCenter_X, ballCenter_Y + 100);
-        return false;
+    public boolean action(int type, float newY)
+    {
+        velocityY = 5;
+        if(type == 1) {
+            System.out.println(ballCenter_X/pipeBoard.pipeCenter);
+            if (ballCenter_X/pipeBoard.pipeCenter >= 0.90) {
+                velocityX = 4;
+            } else if(ballCenter_X/pipeBoard.pipeCenter <=0.70){
+                velocityX = -4;
+            }
+            else
+            {
+                velocityX=0;
+            }
+        }
+        if(type == 2)
+        {
+            bounceY();
+        }
+        if(type == 3)
+        {
+          bounceX();
+        }
+
+        return true;
     }
 
     @Override
-    public void update(float delta) {
-
+    public void update(float delta)
+    {
+        setPosition(ballCenter_X += velocityX, ballCenter_Y+= velocityY);
     }
 
     @Override
     public int collision(Rectangle rectangle) {
-        if(bottom.overlaps(rectangle))
+        if(vertical.overlaps(rectangle) || horizontal.overlaps(rectangle))
         {
             return 1;
-            /*TODO angles and movement initialization*/
         }
         return -1;
     }
 
     @Override
     public void setPosition(float x, float y) {
-        bottom.x = x;
-        bottom.y = y;
+        vertical.setPosition(x + 1 / 4 * sprite.getWidth() , y);
+        horizontal.setPosition(x, y + 1 / 4 * sprite.getHeight());
         sprite.setPosition(x,y);
     }
 
     @Override
     public float getX() {
-        return 0;
+        return sprite.getX();
     }
 
     @Override
     public float getY() {
-        return 0;
+        return sprite.getY();
     }
 
     @Override
     public void destroy() {
 
+    }
+
+    public int setVelX(int newVelX)
+    {
+        return this.velocityX= newVelX;
+    }
+    public int setVelY(int newVelY)
+    {
+        return this.velocityY= newVelY;
+    }
+    public void bounceX()
+    {
+        setVelX( -(this.velocityX) );
+    }
+    public void bounceY()
+    {
+        setVelY( - (this.velocityY));
     }
 }

@@ -1,19 +1,18 @@
 package com.arkanoid.stm.objects;
 
+import com.arkanoid.stm.interfaces.GameObject;
+import com.arkanoid.stm.interfaces.PipeMovement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.arkanoid.stm.interfaces.GameObject;
-import com.arkanoid.stm.interfaces.PipeMovement;
 
 /**
  * Created by Grzegorz on 2015-04-04.
  */
 public class PipeBoard extends GameObject implements PipeMovement
 {
-
 
     Rectangle pipeRectangle;
     float veolocityY;
@@ -23,6 +22,8 @@ public class PipeBoard extends GameObject implements PipeMovement
     Sprite sprite;
     public boolean ballMoved = false;
 
+    float pipeCenter;
+
     public PipeBoard()
     {
         texture= new Texture(Gdx.files.internal("core/assets/sprites/pipes/pipe.gif"));
@@ -30,6 +31,8 @@ public class PipeBoard extends GameObject implements PipeMovement
 
         pipeRectangle = sprite.getBoundingRectangle();
         sprite.setPosition( this.getX(), this.getY());
+        pipeCenter= this.getX() + sprite.getWidth()/2;
+
         veolocityY = 0;
     }
 
@@ -42,6 +45,7 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     public int collision(Rectangle object)
     {
+        pipeCenter= this.getX() + sprite.getWidth()/2;
         if(pipeRectangle.overlaps(object))
         {
             pushBall= false;
@@ -52,7 +56,6 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     public boolean action(int type, float newY)
     {
-
         if ( type == 1 && !ballMoved)
         {
             veolocityY = 0;

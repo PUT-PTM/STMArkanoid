@@ -3,7 +3,6 @@ package com.arkanoid.stm.objects;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,13 +32,13 @@ public class Blocks
    blocksInRowList = new ArrayList<Integer>();
  }
 
- int zarazUsune=0;
+ //int blocksChecksum=0;
 
  private void addBlock(int type,float positionX, float positionY, float scaleX, float scaleY)
  {
    Block block= new Block(type,positionX,positionY, scaleX, scaleY);
    this.blockList.add(block);
-  System.out.println(zarazUsune++);
+  //System.out.println(blocksChecksum++);
  }
 
  /**

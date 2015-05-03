@@ -1,8 +1,8 @@
 package com.arkanoid.stm.desktop;
 
+import com.arkanoid.stm.gameStates.ArkanoidGdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.arkanoid.stm.game.ArkanoidGdx;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

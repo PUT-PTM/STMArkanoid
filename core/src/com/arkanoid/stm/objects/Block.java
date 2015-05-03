@@ -1,11 +1,11 @@
 package com.arkanoid.stm.objects;
 
+import com.arkanoid.stm.interfaces.GameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.arkanoid.stm.interfaces.GameObject;
 
 /**
  * Created by Grzegorz on 2015-04-12.
@@ -22,6 +22,11 @@ public class Block  extends GameObject{
         Texture texture;
 
         Rectangle block_rectangle;
+
+
+
+        public Rectangle getBlock_rectangle(){ return this.block_rectangle;}
+
         float x,y,width,height;
 
         int type;
@@ -47,7 +52,6 @@ public class Block  extends GameObject{
          * */
         public void initBlock(int number, float width,float height)
         {
-
             switch(number)
             {
                 case 1:
@@ -72,7 +76,7 @@ public class Block  extends GameObject{
                 }
             }
             sprite.setSize(width, height);
-            sprite.setPosition(x,y);
+            sprite.setPosition(x, y);
 
         }
 
@@ -103,12 +107,12 @@ public class Block  extends GameObject{
 
         }
 
-
         @Override
         public int collision(Rectangle rectangle) {
             if(block_rectangle.overlaps(rectangle)) {
                 action(1,1);
                 lifeCounter--;
+                return 1;
             }
             return 0;
         }
@@ -130,10 +134,8 @@ public class Block  extends GameObject{
 
         @Override
         public void destroy() {
-            try {
-               finalize();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+
+            texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_1.gif"));
+
         }
 }

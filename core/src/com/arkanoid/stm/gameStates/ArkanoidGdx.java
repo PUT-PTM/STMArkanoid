@@ -1,7 +1,10 @@
-package com.arkanoid.stm.game;
+package com.arkanoid.stm.gameStates;
 
+import com.arkanoid.stm.objects.Balls;
+import com.arkanoid.stm.objects.Block;
 import com.arkanoid.stm.objects.Blocks;
-import com.badlogic.gdx.ApplicationAdapter;
+import com.arkanoid.stm.objects.PipeBoard;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,18 +13,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-import com.arkanoid.stm.objects.Balls;
-import com.arkanoid.stm.objects.Block;
-import com.arkanoid.stm.objects.PipeBoard;
-
-public class ArkanoidGdx extends ApplicationAdapter
+//TODO moving ball
+//TODO music
+//TODO main menu
+//TODO STM and JAVA
+public class ArkanoidGdx extends Game
 {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Texture img;
-	private Rectangle screenBoundries_Down,
-			screenBoundries_Up;
+	private Rectangle screenBoundries_Down,screenBoundries_Left,
+			screenBoundries_Up, screenBoundries_Right;
 
 	boolean spacePressed =false;
 
@@ -32,8 +35,10 @@ public class ArkanoidGdx extends ApplicationAdapter
 	@Override
 	public void create () {
 
-		screenBoundries_Down = new Rectangle(0,0,800,1);
-		screenBoundries_Up = new Rectangle( 0,800,800,1);
+		screenBoundries_Down = new Rectangle(0,0,600,1);
+		screenBoundries_Up = new Rectangle( 0,800,600,1);
+		screenBoundries_Left= new Rectangle(0,0,1,800);
+		screenBoundries_Right= new Rectangle(600,0,1,800);
 
 		camera= new OrthographicCamera();
 		camera.setToOrtho(false ,600, 800);
@@ -42,14 +47,18 @@ public class ArkanoidGdx extends ApplicationAdapter
 
 		img = new Texture(Gdx.files.internal("core/assets/sprites/newBackground.jpg"));
 
+		initArkanoidPart();
+
+	}
+
+	/** Initializes balls and pipe*/
+	public void initArkanoidPart()
+	{
 		pipeBoard= new PipeBoard();
 		ball = new Balls(pipeBoard);
 
 		blocks= new Blocks();
 		blocks.loadBlocks_randomly();
-
-		//ONLY FOR TEST
-		//singleBlock= new Block(1,250, 250,100,100);
 	}
 
 	@Override
@@ -76,6 +85,15 @@ public class ArkanoidGdx extends ApplicationAdapter
 
 		controls();
 
+		if((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))) {
+			Gdx.app.exit();
+			try {
+				finalize();
+			} catch (Throwable throwable) {
+				throwable.printStackTrace();
+			}
+		}
+
 	}
 
 	/**Enables movement of pipeboard*/
@@ -97,7 +115,6 @@ public class ArkanoidGdx extends ApplicationAdapter
 			{
 				spacePressed = true;
 				pipeBoard.pushBall();
-
 			}
 
 		}
@@ -106,18 +123,60 @@ public class ArkanoidGdx extends ApplicationAdapter
 	/**Enables collision detection*/
 	public void collision()
 	{
-		if(pipeBoard.collision(screenBoundries_Down) == 1)
+		pipe();
+
+		ball();
+
+		block();
+	}
+
+	public void pipe()
+	{
+		/**Enables bouncing pipe at the beggining*/
+		if(pipeBoard.collision(screenBoundries_Down) == 1 && !spacePressed)
 		{
 			spacePressed = pipeBoard.action(1, 2);
 		}
+	}
 
+	public void ball()
+	{
 		if(ball.collision(pipeBoard.getPipeRectangle()) == 1)
 		{
+			System.out.println("Odbicie PIPE");
 			ball.action(1,1);
 			pipeBoard.ballMoved = true;
 		}
 
+		if(ball.collision(screenBoundries_Left) == 1 || ball.collision(screenBoundries_Right) == 1)
+		{
+			System.out.println("Odbicie Sciana");
+			ball.action(3, 1);
 
+		}
+		if(ball.collision(screenBoundries_Up) == 1 || ball.collision(screenBoundries_Down) == 1)
+		{
+			ball.action(2,1);
+			System.out.println("Odbicie ziemia!");
+		}
+	}
+
+	public void block()
+	{
+		for(Block block: blocks.getBlockList())
+		{
+			if(block.collision(ball.horizontal)== 1)
+			{
+				ball.collision(block.getBlock_rectangle());
+				ball.action(3,1);
+			}
+
+			if(block.collision(ball.vertical) ==1)
+			{
+				ball.collision(block.getBlock_rectangle());
+				ball.action(2,1);
+			}
+		}
 	}
 
 }
