@@ -76,11 +76,11 @@ public class Balls extends GameObject {
     /**Updates position*/
     public void update(float delta)
     {
-        if(pipeBoard.ballMoved)
+        if(!pipeBoard.ballMoved)
         {
-            setPosition(ballCenter_X += velocityX, ballCenter_Y+= velocityY);
+            ballCenter_X = pipeBoard.texture.getWidth() * 2/5 + pipeBoard.getX();
         }
-        //else setPosition(ballCenter_X + pipeBoard.getX(), ballCenter_Y + pipeBoard.getY());
+        setPosition(ballCenter_X += velocityX, ballCenter_Y+= velocityY);
     }
 
     @Override
