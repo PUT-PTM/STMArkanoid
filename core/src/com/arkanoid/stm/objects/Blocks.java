@@ -92,7 +92,7 @@ public boolean findNumberOfBlocksInRow()
 
    for(int k= selectStartColumn(numberOfBlocks); k< numberOfBlocks; k++)
    {
-    int type= new Random().nextInt(4) + 1;
+    int type= new Random().nextInt(5) - 1;
 
     //Positions single row- left center right;
     this.addBlock(type,singleBlock_width*k,(singleBlock_height*i) + 400,singleBlock_width,singleBlock_height);
@@ -135,7 +135,7 @@ public boolean findNumberOfBlocksInRow()
  {
     for(Block singleBlock: blockList)
     {
-     singleBlock.drawSprite(spriteBatch);
+      singleBlock.drawSprite(spriteBatch);
     }
  }
 

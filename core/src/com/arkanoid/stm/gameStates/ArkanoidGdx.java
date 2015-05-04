@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.Iterator;
+
 //TODO moving ball
 //TODO music
 //TODO main menu
@@ -160,24 +162,23 @@ public class ArkanoidGdx extends Game
 
 	public void block()
 	{
-		for(Block block: blocks.getBlockList())
-		{
-			if(block.lifeCounter != 0)
-			{
-				if(block.collision(ball.horizontal)== 1)
-				{
-					ball.collision(block.getBlock_rectangle());
-					ball.action(3, 1);
-				}
+		Block block;
+		Iterator<Block> it= blocks.getBlockList().iterator();
+		while(it.hasNext()) {
+			block = it.next();
 
-				if(block.collision(ball.vertical) == 1)
-				{
-					ball.collision(block.getBlock_rectangle());
-					ball.action(2,1);
-
-				}
+			if (block.collision(ball.horizontal) == 1) {
+				ball.collision(block.getBlock_rectangle());
+				ball.action(3, 1);
 			}
 
+			if (block.collision(ball.vertical) == 1) {
+				ball.collision(block.getBlock_rectangle());
+				ball.action(2, 1);
+
+			}
+
+			if(block.lifeCounter == 0) it.remove();
 
 		}
 	}

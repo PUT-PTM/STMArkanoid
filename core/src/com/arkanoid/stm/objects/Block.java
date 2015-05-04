@@ -38,17 +38,15 @@ public class Block  extends GameObject{
             this.height = sizeY;
             this.type = type;
 
-            if(type != -1)lifeCounter = type;
-            else type= -1;
+            if(type != -1)  lifeCounter = type;
+            else            lifeCounter = -1;
 
             initBlock(type, sizeX, sizeY);
 
             block_rectangle = sprite.getBoundingRectangle();
         }
 
-        /**
-         * Chooses the right type of block- 1, 2, 3 or 9 -solid
-         * */
+        /** Chooses the right type of block- 1, 2, 3 or 9 -solid */
         public void initBlock(int number, float width,float height)
         {
             switch(number)
@@ -83,11 +81,7 @@ public class Block  extends GameObject{
         public void drawSprite(SpriteBatch spriteBatch) {
             switch (lifeCounter)
             {
-                case 0:
-                {
-                    texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_blank.gif"));
-                    block_rectangle= new Rectangle(0,0,1,1);
-                }break;
+                case -1:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_9.gif"));break;
                 case 1:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_1.gif"));break;
                 case 2:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_2.gif"));break;
                 case 3:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_3.gif"));break;
@@ -139,8 +133,6 @@ public class Block  extends GameObject{
         @Override
         public void destroy() {
 
-            texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_blank.gif"));
-
-            block_rectangle= null;
+            texture.dispose();
         }
 }
