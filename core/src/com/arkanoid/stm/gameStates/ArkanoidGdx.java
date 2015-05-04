@@ -54,7 +54,7 @@ public class ArkanoidGdx extends Game
 	/** Initializes balls and pipe*/
 	public void initArkanoidPart()
 	{
-		pipeBoard= new PipeBoard();
+		pipeBoard= new PipeBoard(300);
 		ball = new Balls(pipeBoard);
 
 		blocks= new Blocks();
@@ -80,6 +80,7 @@ public class ArkanoidGdx extends Game
 		// UPDATES
 		pipeBoard.update(Gdx.graphics.getDeltaTime());
 		ball.update(Gdx.graphics.getDeltaTime());
+
 
 		collision();
 
@@ -116,7 +117,6 @@ public class ArkanoidGdx extends Game
 				spacePressed = true;
 				pipeBoard.pushBall();
 			}
-
 		}
 	}
 
@@ -143,21 +143,18 @@ public class ArkanoidGdx extends Game
 	{
 		if(ball.collision(pipeBoard.getPipeRectangle()) == 1)
 		{
-			System.out.println("Odbicie PIPE");
 			ball.action(1,1);
 			pipeBoard.ballMoved = true;
 		}
 
 		if(ball.collision(screenBoundries_Left) == 1 || ball.collision(screenBoundries_Right) == 1)
 		{
-			System.out.println("Odbicie Sciana");
 			ball.action(3, 1);
 
 		}
 		if(ball.collision(screenBoundries_Up) == 1 || ball.collision(screenBoundries_Down) == 1)
 		{
-			ball.action(2,1);
-			System.out.println("Odbicie ziemia!");
+			ball.action(2, 1);
 		}
 	}
 
@@ -165,17 +162,23 @@ public class ArkanoidGdx extends Game
 	{
 		for(Block block: blocks.getBlockList())
 		{
-			if(block.collision(ball.horizontal)== 1)
+			if(block.lifeCounter != 0)
 			{
-				ball.collision(block.getBlock_rectangle());
-				ball.action(3,1);
+				if(block.collision(ball.horizontal)== 1)
+				{
+					ball.collision(block.getBlock_rectangle());
+					ball.action(3, 1);
+				}
+
+				if(block.collision(ball.vertical) == 1)
+				{
+					ball.collision(block.getBlock_rectangle());
+					ball.action(2,1);
+
+				}
 			}
 
-			if(block.collision(ball.vertical) ==1)
-			{
-				ball.collision(block.getBlock_rectangle());
-				ball.action(2,1);
-			}
+
 		}
 	}
 

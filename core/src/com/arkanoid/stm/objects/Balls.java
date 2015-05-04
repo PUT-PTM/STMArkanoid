@@ -44,11 +44,12 @@ public class Balls extends GameObject {
     }
 
     @Override
+    /**Defines balls behavior*/
     public boolean action(int type, float newY)
     {
-        velocityY = 5;
-        if(type == 1) {
-            System.out.println(ballCenter_X/pipeBoard.pipeCenter);
+        if(type == 1)
+        {
+            velocityY = 5;
             if (ballCenter_X/pipeBoard.pipeCenter >= 0.90) {
                 velocityX = 4;
             } else if(ballCenter_X/pipeBoard.pipeCenter <=0.70){
@@ -72,13 +73,19 @@ public class Balls extends GameObject {
     }
 
     @Override
+    /**Updates position*/
     public void update(float delta)
     {
-        setPosition(ballCenter_X += velocityX, ballCenter_Y+= velocityY);
+        if(pipeBoard.ballMoved)
+        {
+            setPosition(ballCenter_X += velocityX, ballCenter_Y+= velocityY);
+        }
+        //else setPosition(ballCenter_X + pipeBoard.getX(), ballCenter_Y + pipeBoard.getY());
     }
 
     @Override
-    public int collision(Rectangle rectangle) {
+    /**Detects collision -> returns 1. */
+         public int collision(Rectangle rectangle) {
         if(vertical.overlaps(rectangle) || horizontal.overlaps(rectangle))
         {
             return 1;
@@ -87,6 +94,7 @@ public class Balls extends GameObject {
     }
 
     @Override
+    /**Sets position of sprite and moves collision rectangle*/
     public void setPosition(float x, float y) {
         vertical.setPosition(x + 1 / 4 * sprite.getWidth() , y);
         horizontal.setPosition(x, y + 1 / 4 * sprite.getHeight());
@@ -118,10 +126,10 @@ public class Balls extends GameObject {
     }
     public void bounceX()
     {
-        setVelX( -(this.velocityX) );
+        setVelX(-(this.velocityX));
     }
     public void bounceY()
     {
-        setVelY( - (this.velocityY));
+        setVelY(-(this.velocityY));
     }
 }

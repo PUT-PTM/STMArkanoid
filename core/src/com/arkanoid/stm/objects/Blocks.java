@@ -88,7 +88,6 @@ public boolean findNumberOfBlocksInRow()
 
   for(int i=0; i < rows; i++)
   {
-
    int numberOfBlocks= blocksInRowList.get(i).intValue();
 
    for(int k= selectStartColumn(numberOfBlocks); k< numberOfBlocks; k++)

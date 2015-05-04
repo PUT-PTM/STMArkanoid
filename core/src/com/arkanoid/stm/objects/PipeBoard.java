@@ -9,11 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
- * Created by Grzegorz on 2015-04-04.
+ * Created by grzeprza on 2015-04-04.
  */
 public class PipeBoard extends GameObject implements PipeMovement
 {
-
     Rectangle pipeRectangle;
     float veolocityY;
     boolean pushBall = false;
@@ -24,13 +23,13 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     float pipeCenter;
 
-    public PipeBoard()
+    public PipeBoard(float startX)
     {
         texture= new Texture(Gdx.files.internal("core/assets/sprites/pipes/pipe.gif"));
         sprite= new Sprite(texture);
 
         pipeRectangle = sprite.getBoundingRectangle();
-        sprite.setPosition( this.getX(), this.getY());
+        sprite.setPosition( startX , this.getY());
         pipeCenter= this.getX() + sprite.getWidth()/2;
 
         veolocityY = 0;
