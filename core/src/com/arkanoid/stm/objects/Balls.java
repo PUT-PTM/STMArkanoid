@@ -2,6 +2,7 @@ package com.arkanoid.stm.objects;
 
 import com.arkanoid.stm.interfaces.GameObject;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,9 @@ public class Balls extends GameObject {
     private Texture texture;
     private Sprite sprite;
 
+    private Sound bounce_1, bounce_2;
+    boolean playFirst=false;
+
     public Rectangle vertical,horizontal;
 
     private int velocityY=0, velocityX = 0;
@@ -30,6 +34,9 @@ public class Balls extends GameObject {
 
         texture = new Texture(Gdx.files.internal("core/assets/sprites/balls/white_ball.gif"));
         sprite = new Sprite(texture);
+
+        bounce_1= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip1.mp3"));
+        bounce_2= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip2.mp3"));
 
         sprite.setPosition(ballCenter_X, ballCenter_Y);
 
@@ -88,7 +95,17 @@ public class Balls extends GameObject {
          public int collision(Rectangle rectangle) {
         if(vertical.overlaps(rectangle) || horizontal.overlaps(rectangle))
         {
-            return 1;
+            if(playFirst)
+            {
+                bounce_1.play();
+                playFirst=false;
+            }
+            else
+            {
+                bounce_2.play();
+                playFirst=true;
+            }
+                return 1;
         }
         return -1;
     }
@@ -98,7 +115,7 @@ public class Balls extends GameObject {
     public void setPosition(float x, float y) {
         vertical.setPosition(x + 1 / 4 * sprite.getWidth() , y);
         horizontal.setPosition(x, y + 1 / 4 * sprite.getHeight());
-        sprite.setPosition(x,y);
+        sprite.setPosition(x, y);
     }
 
     @Override
