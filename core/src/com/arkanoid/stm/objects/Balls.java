@@ -42,8 +42,9 @@ public class Balls extends GameObject {
         sprite.setPosition(ballCenter_X, ballCenter_Y);
 
         //ball collision borders
-        vertical  = new Rectangle(sprite.getX()+ 1/4*sprite.getWidth(), sprite.getY()                       ,sprite.getWidth()*3/4, sprite.getHeight());
-        horizontal= new Rectangle(sprite.getX()                       ,sprite.getY()+ 1/4*sprite.getHeight(),sprite.getWidth()    , sprite.getHeight()*3/4 );
+        vertical  = new Rectangle(sprite.getX()+ (float) (0.12)*sprite.getWidth(), sprite.getY()                                 ,sprite.getWidth()*(float) (0.75), sprite.getHeight());
+        horizontal= new Rectangle(sprite.getX()                                  ,sprite.getY()+(float) (0.12)*sprite.getHeight(),sprite.getWidth()               , sprite.getHeight()*(float) (0.75) );
+
 
         shapeRenderer= new ShapeRenderer();
     }
@@ -123,8 +124,8 @@ public class Balls extends GameObject {
     @Override
     /**Sets position of sprite and moves collision rectangle*/
     public void setPosition(float x, float y) {
-        vertical.setPosition(x + 1 / 4 * sprite.getWidth() , y);
-        horizontal.setPosition(x, y + 1 / 4 * sprite.getHeight());
+        vertical.setPosition(x + (float) (0.12)*sprite.getWidth() , y);
+        horizontal.setPosition(x, y +(float) (0.12) * sprite.getHeight());
         sprite.setPosition(x, y);
     }
 

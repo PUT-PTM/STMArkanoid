@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * Created by Grzegorz on 2015-04-06.
+ * Created by grzeprza on 2015-04-06.
  */
 
  /**

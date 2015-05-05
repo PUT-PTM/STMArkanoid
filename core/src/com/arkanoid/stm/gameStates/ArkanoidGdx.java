@@ -188,7 +188,7 @@ public class ArkanoidGdx extends Game
 
 			}
 
-			if(block.lifeCounter == 0) it.remove();
+			if(block.lifeCounter <= 0) it.remove();
 
 		}
 

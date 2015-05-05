@@ -81,12 +81,12 @@ public class Block  extends GameObject{
         public void drawSprite(SpriteBatch spriteBatch) {
             switch (lifeCounter)
             {
-
                 case 1:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_1.gif"));break;
                 case 2:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_2.gif"));break;
                 case 3:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_3.gif"));break;
                 default:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_9.gif"));break;
             }
+
             sprite.setTexture(texture);
             sprite.draw(spriteBatch);
         }
