@@ -15,12 +15,18 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Iterator;
 
-//TODO moving ball
+//TODO moving ball different angles
+//TODO Victory state
 //TODO music
 //TODO main menu
+//TODO loading lvl from file
 //TODO STM and JAVA
 public class ArkanoidGdx extends Game
 {
+	static
+	{
+		int GameState= 1; //0 Menu, 1 Game, 2 Victory, 3 Lost
+	}
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -89,6 +95,10 @@ public class ArkanoidGdx extends Game
 		controls();
 
 		if((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))) {
+			blocks.destroy();
+			pipeBoard.destroy();
+			ball.destroy();
+
 			Gdx.app.exit();
 			try {
 				finalize();
@@ -163,7 +173,7 @@ public class ArkanoidGdx extends Game
 	public void block()
 	{
 		Block block;
-		Iterator<Block> it= blocks.getBlockList().iterator();
+		Iterator<Block> it= blocks.getActiveBlocksList().iterator();
 		while(it.hasNext()) {
 			block = it.next();
 
@@ -181,6 +191,20 @@ public class ArkanoidGdx extends Game
 			if(block.lifeCounter == 0) it.remove();
 
 		}
+
+		for(Block passiveBlock: blocks.getPassiveBlocksList())
+		{
+			if (passiveBlock.collision(ball.horizontal) == 1) {
+				ball.collision(passiveBlock.getBlock_rectangle());
+				ball.action(3, 1);
+			}
+
+			if (passiveBlock.collision(ball.vertical) == 1) {
+				ball.collision(passiveBlock.getBlock_rectangle());
+				ball.action(2, 1);
+			}
+		}
+
 	}
 
 }

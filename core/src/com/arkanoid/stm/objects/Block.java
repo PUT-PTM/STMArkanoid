@@ -38,8 +38,7 @@ public class Block  extends GameObject{
             this.height = sizeY;
             this.type = type;
 
-            if(type != -1)  lifeCounter = type;
-            else            lifeCounter = -1;
+            lifeCounter = type;
 
             initBlock(type, sizeX, sizeY);
 
@@ -78,19 +77,22 @@ public class Block  extends GameObject{
         }
 
         @Override
+        /** Draws sprite texture which is block-life dependent*/
         public void drawSprite(SpriteBatch spriteBatch) {
             switch (lifeCounter)
             {
-                case -1:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_9.gif"));break;
+
                 case 1:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_1.gif"));break;
                 case 2:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_2.gif"));break;
                 case 3:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_3.gif"));break;
+                default:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_9.gif"));break;
             }
             sprite.setTexture(texture);
             sprite.draw(spriteBatch);
         }
 
         @Override
+        /** Destroys the block when there is no life left*/
         public boolean action(int type, float newY) {
             if(lifeCounter == 0)
             {
@@ -131,8 +133,8 @@ public class Block  extends GameObject{
         }
 
         @Override
-        public void destroy() {
-
+        public void destroy()
+        {
             texture.dispose();
         }
 }

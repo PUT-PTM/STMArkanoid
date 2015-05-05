@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -17,7 +18,8 @@ import java.util.Random;
 public class Blocks
 {
 
- ArrayList<Block> blockList;
+ ArrayList<Block> activeBlocksList;
+ ArrayList<Block> passiveBlocksList;
 
  ArrayList<Integer> blocksInRowList;
 
@@ -28,8 +30,11 @@ public class Blocks
 
  public Blocks()
  {
-   blockList= new ArrayList<>();
-   blocksInRowList = new ArrayList<Integer>();
+   activeBlocksList = new ArrayList<>();
+   passiveBlocksList= new ArrayList<>();
+
+  blocksInRowList = new ArrayList<Integer>();
+
  }
 
  //int blocksChecksum=0;
@@ -37,7 +42,14 @@ public class Blocks
  private void addBlock(int type,float positionX, float positionY, float scaleX, float scaleY)
  {
    Block block= new Block(type,positionX,positionY, scaleX, scaleY);
-   this.blockList.add(block);
+   if(type != 0)
+   {
+     this.activeBlocksList.add(block);
+   }
+   else
+   {
+     this.passiveBlocksList.add(block);
+   }
   //System.out.println(blocksChecksum++);
  }
 
@@ -92,7 +104,7 @@ public boolean findNumberOfBlocksInRow()
 
    for(int k= selectStartColumn(numberOfBlocks); k< numberOfBlocks; k++)
    {
-    int type= new Random().nextInt(5) - 1;
+    int type= new Random().nextInt(4);
 
     //Positions single row- left center right;
     this.addBlock(type,singleBlock_width*k,(singleBlock_height*i) + 400,singleBlock_width,singleBlock_height);
@@ -130,13 +142,18 @@ public boolean findNumberOfBlocksInRow()
   return true;
  }
 
- /**Starts drawSprite method for every block in the blockList<Block>*/
+ /**Starts drawSprite method for every block in the activeBlocksList<Block>*/
  public void drawBlocks(SpriteBatch spriteBatch)
  {
-    for(Block singleBlock: blockList)
+    for(Block singleBlock: activeBlocksList)
     {
       singleBlock.drawSprite(spriteBatch);
     }
+
+  for(Block singleBlock: passiveBlocksList)
+  {
+   singleBlock.drawSprite(spriteBatch);
+  }
  }
 
  /**
@@ -147,13 +164,37 @@ public boolean findNumberOfBlocksInRow()
    /*TODO one size- positioned as in file
    * TODO File has to be square matrix*/
 
-
   }
 
  /**Returns list of blocks- needed for collision outside the Blocks class*/
- public ArrayList<Block> getBlockList()
+ public ArrayList<Block> getActiveBlocksList()
  {
-  return blockList;
+  return activeBlocksList;
+ }
+
+ public ArrayList<Block> getPassiveBlocksList()
+ {
+  return passiveBlocksList;
+ }
+
+ public void destroy()
+ {
+    Block block;
+    Iterator<Block> it= getActiveBlocksList().iterator();
+    while(it.hasNext())
+    {
+       block = it.next();
+       block.destroy();
+       it.remove();
+     }
+
+    it= getPassiveBlocksList().iterator();
+    while(it.hasNext())
+    {
+       block = it.next();
+       block.destroy();
+        it.remove();
+    }
  }
 
 }

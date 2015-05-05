@@ -116,6 +116,7 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     @Override
     public void destroy() {
+        texture.dispose();
     }
 
 

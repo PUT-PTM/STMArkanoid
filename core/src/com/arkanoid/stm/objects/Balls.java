@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -22,7 +23,7 @@ public class Balls extends GameObject {
     private Sound bounce_1, bounce_2;
     boolean playFirst=false;
 
-    public Rectangle vertical,horizontal;
+    public Rectangle vertical,horizontal;   ShapeRenderer shapeRenderer;
 
     private int velocityY=0, velocityX = 0;
 
@@ -43,11 +44,14 @@ public class Balls extends GameObject {
         //ball collision borders
         vertical  = new Rectangle(sprite.getX()+ 1/4*sprite.getWidth(), sprite.getY()                       ,sprite.getWidth()*3/4, sprite.getHeight());
         horizontal= new Rectangle(sprite.getX()                       ,sprite.getY()+ 1/4*sprite.getHeight(),sprite.getWidth()    , sprite.getHeight()*3/4 );
+
+        shapeRenderer= new ShapeRenderer();
     }
 
     @Override
     public void drawSprite(SpriteBatch spriteBatch) {
         sprite.draw(spriteBatch);
+
     }
 
     @Override
@@ -57,6 +61,7 @@ public class Balls extends GameObject {
         if(type == 1)
         {
             velocityY = 5;
+            System.out.println(ballCenter_X + " " + pipeBoard.pipeCenter + " " + ballCenter_X/pipeBoard.pipeCenter);
             if (ballCenter_X/pipeBoard.pipeCenter >= 0.90) {
                 velocityX = 4;
             } else if(ballCenter_X/pipeBoard.pipeCenter <=0.70){
@@ -83,6 +88,11 @@ public class Balls extends GameObject {
     /**Updates position*/
     public void update(float delta)
     {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
+        shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
+        shapeRenderer.end();
+
         if(!pipeBoard.ballMoved)
         {
             ballCenter_X = pipeBoard.texture.getWidth() * 2/5 + pipeBoard.getX();
@@ -130,7 +140,9 @@ public class Balls extends GameObject {
 
     @Override
     public void destroy() {
-
+        bounce_2.dispose();
+        bounce_1.dispose();
+        texture.dispose();
     }
 
     public int setVelX(int newVelX)
