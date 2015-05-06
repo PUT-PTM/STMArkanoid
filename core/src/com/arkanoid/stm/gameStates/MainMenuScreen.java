@@ -19,14 +19,14 @@ public class MainMenuScreen implements Screen
 
     public MainMenuScreen(ArkanoidGdx arkanoidGdx) {
         game = arkanoidGdx;
-        music= Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+        music= Gdx.audio.newMusic(Gdx.files.internal("core/assets/music/themes/mainMenu/SohnTremors.mp3"));
         camera= new OrthographicCamera();
         camera.setToOrtho(false, 600, 800);
     }
 
     @Override
     public void show() {
-
+        music.play();
     }
 
     @Override
@@ -47,9 +47,6 @@ public class MainMenuScreen implements Screen
         }
 
         if((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))) {
-            game.blocks.destroy();
-            game.pipeBoard.destroy();
-            game.ball.destroy();
 
             Gdx.app.exit();
             try {
@@ -84,6 +81,6 @@ public class MainMenuScreen implements Screen
 
     @Override
     public void dispose() {
-
+        music.dispose();
     }
 }

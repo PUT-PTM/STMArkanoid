@@ -1,6 +1,7 @@
 package com.arkanoid.stm.gameStates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
 /**
@@ -38,6 +39,14 @@ public class GameScreen implements Screen {
 
         game.controls();
         game.collision();
+
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))) {
+            game.blocks.destroy();
+            game.pipeBoard.destroy();
+            game.ball.destroy();
+            this.dispose();
+
+        }
     }
 
     @Override
