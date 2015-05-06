@@ -7,9 +7,9 @@ import com.arkanoid.stm.objects.PipeBoard;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -23,14 +23,10 @@ import java.util.Iterator;
 //TODO STM and JAVA
 public class ArkanoidGdx extends Game
 {
-	static
-	{
-		int GameState= 1; //0 Menu, 1 Game, 2 Victory, 3 Lost
-	}
-
+	BitmapFont font;
 	private OrthographicCamera camera;
-	private SpriteBatch batch;
-	private Texture img;
+	public SpriteBatch batch;
+	protected Texture img;
 	private Rectangle screenBoundries_Down,screenBoundries_Left,
 			screenBoundries_Up, screenBoundries_Right;
 
@@ -41,27 +37,28 @@ public class ArkanoidGdx extends Game
 	Blocks blocks;
 
 	@Override
-	public void create () {
+	public void create ()
+	{
+		batch = new SpriteBatch();
 
+		font= new BitmapFont();
+
+		this.setScreen(new MainMenuScreen(this));
+
+	}
+	/** Initializes balls, pipe, screen boundries*/
+	protected void initArkanoidPart()
+	{
+
+
+		//Screen collision boundries
 		screenBoundries_Down = new Rectangle(0,0,600,1);
 		screenBoundries_Up = new Rectangle( 0,800,600,1);
 		screenBoundries_Left= new Rectangle(0,0,1,800);
 		screenBoundries_Right= new Rectangle(600,0,1,800);
 
-		camera= new OrthographicCamera();
-		camera.setToOrtho(false ,600, 800);
-
-		batch = new SpriteBatch();
-
 		img = new Texture(Gdx.files.internal("core/assets/sprites/newBackground.jpg"));
 
-		initArkanoidPart();
-
-	}
-
-	/** Initializes balls and pipe*/
-	public void initArkanoidPart()
-	{
 		pipeBoard= new PipeBoard(300);
 		ball = new Balls(pipeBoard);
 
@@ -69,13 +66,9 @@ public class ArkanoidGdx extends Game
 		blocks.loadBlocks_randomly();
 	}
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		batch.setProjectionMatrix(camera.combined);
-
+	private void Game()
+	{
 		batch.begin();
 		batch.draw(img, 0, 0);
 
@@ -93,24 +86,16 @@ public class ArkanoidGdx extends Game
 		collision();
 
 		controls();
+	}
 
-		if((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))) {
-			blocks.destroy();
-			pipeBoard.destroy();
-			ball.destroy();
-
-			Gdx.app.exit();
-			try {
-				finalize();
-			} catch (Throwable throwable) {
-				throwable.printStackTrace();
-			}
-		}
+	@Override
+	public void render() {
+		super.render();
 
 	}
 
 	/**Enables movement of pipeboard*/
-	public void controls()
+	protected void controls()
 	{
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
 		{
@@ -133,7 +118,7 @@ public class ArkanoidGdx extends Game
 	}
 
 	/**Enables collision detection*/
-	public void collision()
+	protected void collision()
 	{
 		pipe();
 
@@ -142,7 +127,8 @@ public class ArkanoidGdx extends Game
 		block();
 	}
 
-	public void pipe()
+	/**Pipe collision behavior*/
+	private void pipe()
 	{
 		/**Enables bouncing pipe at the beggining*/
 		if(pipeBoard.collision(screenBoundries_Down) == 1 && !spacePressed)
@@ -151,7 +137,8 @@ public class ArkanoidGdx extends Game
 		}
 	}
 
-	public void ball()
+	/**Ball collision behavior*/
+	private void ball()
 	{
 		if(ball.collision(pipeBoard.getPipeRectangle()) == 1)
 		{
@@ -170,7 +157,8 @@ public class ArkanoidGdx extends Game
 		}
 	}
 
-	public void block()
+	/**Block collision behavior. Includes part of ball behavior, because D.R.Y.*/
+	private void block()
 	{
 		Block block;
 		Iterator<Block> it= blocks.getActiveBlocksList().iterator();
@@ -205,6 +193,11 @@ public class ArkanoidGdx extends Game
 			}
 		}
 
+	}
+
+	public void dispose()
+	{
+		batch.dispose();
 	}
 
 }
