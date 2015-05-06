@@ -19,7 +19,10 @@ public class MainMenuScreen implements Screen
 
     public MainMenuScreen(ArkanoidGdx arkanoidGdx) {
         game = arkanoidGdx;
+
         music= Gdx.audio.newMusic(Gdx.files.internal("core/assets/music/themes/mainMenu/SohnTremors.mp3"));
+        music.setLooping(true);
+
         camera= new OrthographicCamera();
         camera.setToOrtho(false, 600, 800);
     }
