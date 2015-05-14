@@ -36,6 +36,8 @@ public class ArkanoidGdx extends Game
 	Balls ball;
 	Blocks blocks;
 
+	public boolean drawBlocks=false;
+
 	@Override
 	public void create ()
 	{
@@ -47,10 +49,8 @@ public class ArkanoidGdx extends Game
 
 	}
 	/** Initializes balls, pipe, screen boundries*/
-	protected void initArkanoidPart()
+	protected void initArkanoidPart(int gameMode)
 	{
-
-
 		//Screen collision boundries
 		screenBoundries_Down = new Rectangle(0,0,600,1);
 		screenBoundries_Up = new Rectangle( 0,800,600,1);
@@ -59,33 +59,19 @@ public class ArkanoidGdx extends Game
 
 		img = new Texture(Gdx.files.internal("core/assets/sprites/newBackground.jpg"));
 
-		pipeBoard= new PipeBoard(300);
+		pipeBoard= new PipeBoard(250);
 		ball = new Balls(pipeBoard);
 
 		blocks= new Blocks();
-		blocks.loadBlocks_randomly();
-	}
+		switch (gameMode)
+		{
+			//Freestyle
+			case 1:{blocks.loadBlocks_randomly();}break;
 
+			//Classic
+			case 2:{}break;
+		}
 
-	private void Game()
-	{
-		batch.begin();
-		batch.draw(img, 0, 0);
-
-		pipeBoard.drawSprite(batch);
-		ball.drawSprite(batch);
-		blocks.drawBlocks(batch);
-
-		batch.end();
-
-		// UPDATES
-		pipeBoard.update(Gdx.graphics.getDeltaTime());
-		ball.update(Gdx.graphics.getDeltaTime());
-
-
-		collision();
-
-		controls();
 	}
 
 	@Override
@@ -168,12 +154,15 @@ public class ArkanoidGdx extends Game
 			if (block.collision(ball.horizontal) == 1) {
 				ball.collision(block.getBlock_rectangle());
 				ball.action(3, 1);
+				drawBlocks=true;
+				//break;
 			}
 
 			if (block.collision(ball.vertical) == 1) {
 				ball.collision(block.getBlock_rectangle());
 				ball.action(2, 1);
-
+				drawBlocks = true;
+				//break;
 			}
 
 			if(block.lifeCounter <= 0) it.remove();
@@ -197,6 +186,9 @@ public class ArkanoidGdx extends Game
 
 	public void dispose()
 	{
+		blocks.destroy();
+		pipeBoard.destroy();
+		ball.destroy();
 		batch.dispose();
 	}
 

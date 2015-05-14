@@ -25,11 +25,12 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     public PipeBoard(float startX)
     {
+
         texture= new Texture(Gdx.files.internal("core/assets/sprites/pipes/pipe.gif"));
         sprite= new Sprite(texture);
-
+        sprite.setPosition( startX , 0);
         pipeRectangle = sprite.getBoundingRectangle();
-        sprite.setPosition( startX , this.getY());
+
         pipeCenter= this.getX() + sprite.getWidth()/2;
 
         veolocityY = 0;

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
+
 /**
  * Created by Grzegorz on 2015-04-12.
  */
@@ -20,6 +22,7 @@ public class Block  extends GameObject{
 
         Sprite sprite;
         Texture texture;
+        ArrayList<Texture> textures;
 
         Rectangle block_rectangle;
 
@@ -29,6 +32,7 @@ public class Block  extends GameObject{
 
         int type;
         public int lifeCounter;
+
 
         public Block(int type, float x, float y, float sizeX, float sizeY)
         {
@@ -40,9 +44,16 @@ public class Block  extends GameObject{
 
             lifeCounter = type;
 
+            textures = new ArrayList<Texture>();
+            textures.add(new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_1.gif")));
+            textures.add(new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_2.gif")));
+            textures.add(new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_3.gif")));
+            textures.add(new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_9.gif")));
+
             initBlock(type, sizeX, sizeY);
 
             block_rectangle = sprite.getBoundingRectangle();
+
         }
 
         /** Chooses the right type of block- 1, 2, 3 or 9 -solid */
@@ -50,30 +61,14 @@ public class Block  extends GameObject{
         {
             switch(number)
             {
-                case 1:
-                {
-                    texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_1.gif"));
-                    sprite = new Sprite(texture);
-                }break;
-
-                case 2:{
-                    texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_2.gif"));
-                    sprite = new Sprite(texture);
-                }break;
-
-                case 3:{
-                    texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_3.gif"));
-                    sprite = new Sprite(texture);
-                }break;
-
-                default: {
-                    texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_9.gif"));
-                    sprite = new Sprite(texture);
-                }
+                case 1: texture = textures.get(0);break;
+                case 2: texture = textures.get(1);break;
+                case 3: texture = textures.get(2);break;
+                default:texture = textures.get(3);
             }
+            sprite = new Sprite(texture);
             sprite.setSize(width, height);
             sprite.setPosition(x, y);
-
         }
 
         @Override
@@ -81,12 +76,11 @@ public class Block  extends GameObject{
         public void drawSprite(SpriteBatch spriteBatch) {
             switch (lifeCounter)
             {
-                case 1:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_1.gif"));break;
-                case 2:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_2.gif"));break;
-                case 3:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_3.gif"));break;
-                default:texture = new Texture(Gdx.files.internal("core/assets/sprites/blocks/block_9.gif"));break;
+                case 1:texture = textures.get(0);break; // block 1
+                case 2:texture = textures.get(1);break; // block 2
+                case 3:texture = textures.get(2);break; // block 3
+                default:texture= textures.get(3);break; // solid
             }
-
             sprite.setTexture(texture);
             sprite.draw(spriteBatch);
         }
@@ -135,6 +129,7 @@ public class Block  extends GameObject{
         @Override
         public void destroy()
         {
-            texture.dispose();
+            for(Texture txture: textures)
+                if(lifeCounter>=0)txture.dispose();
         }
 }

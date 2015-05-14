@@ -34,7 +34,7 @@ NetBeans: Firstly plugin, if you don't have already. ( Tools -> Plugin -> Availa
           Check checkbox and install, agree - easy stuff.
           File -> Open Project ->(choose directory where the file was extracted) [ It might take a while ]
           Wrong dependecies RELOAD PROJECT
-          
+           
 NOTE!!!! You won't have any imports .jpg .gif .mp3, so compilation will fail!! At least until you load new or comment code that makes trouble.
          But game without texture and music is nothing, so better import.
          

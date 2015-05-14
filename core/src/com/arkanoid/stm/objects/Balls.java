@@ -25,7 +25,7 @@ public class Balls extends GameObject {
 
     public Rectangle vertical,horizontal;   ShapeRenderer shapeRenderer;
 
-    private int velocityY=0, velocityX = 0;
+    protected int velocityY=0, velocityX = 0;
 
     public Balls(PipeBoard pipeBoard)
     {
@@ -62,8 +62,12 @@ public class Balls extends GameObject {
         if(type == 1)
         {
             velocityY = 5;
-            System.out.println(ballCenter_X + " " + pipeBoard.pipeCenter + " " + ballCenter_X/pipeBoard.pipeCenter);
-            if (ballCenter_X/pipeBoard.pipeCenter >= 0.90) {
+            System.out.println("BallCent X= " + ballCenter_X + " | PipeCentX=  " + pipeBoard.pipeCenter + " | Angle= " + ballCenter_X /pipeBoard.pipeCenter);
+
+            if(pipeBoard.pipeCenter-ballCenter_X <0)
+            velocityX= (int) ((int)ballCenter_X/pipeBoard.pipeCenter/4*10);
+            else velocityX= (int) -((int)ballCenter_X/pipeBoard.pipeCenter/4*10);
+           /* if (ballCenter_X/pipeBoard.pipeCenter >= 0.90) {
                 velocityX = 4;
             } else if(ballCenter_X/pipeBoard.pipeCenter <=0.70){
                 velocityX = -4;
@@ -71,7 +75,7 @@ public class Balls extends GameObject {
             else
             {
                 velocityX=0;
-            }
+            }*/
         }
         if(type == 2)
         {
@@ -89,10 +93,12 @@ public class Balls extends GameObject {
     /**Updates position*/
     public void update(float delta)
     {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
-        shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
-        shapeRenderer.end();
+        //Code below shows balls collision rectangle
+
+        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        //shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
+        //shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
+        //shapeRenderer.end();
 
         if(!pipeBoard.ballMoved)
         {
