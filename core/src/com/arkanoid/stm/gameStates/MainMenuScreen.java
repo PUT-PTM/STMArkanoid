@@ -17,6 +17,8 @@ public class MainMenuScreen implements Screen
     OrthographicCamera camera;
     Music music;
 
+    private String text_FreestyleMode= "Freestyle mode ( press 1)";
+
     public MainMenuScreen(ArkanoidGdx arkanoidGdx) {
         game = arkanoidGdx;
 
@@ -41,7 +43,8 @@ public class MainMenuScreen implements Screen
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "Press 1 to play FREESTYLE mode!", 100, 400);
+        game.font.draw(game.batch, text_FreestyleMode, 300-(text_FreestyleMode.length()/2), 600);
+        //game.font.draw(game.batch, text_FreestyleMode, 300-(text_FreestyleMode.length()/2), 400);
         game.batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
