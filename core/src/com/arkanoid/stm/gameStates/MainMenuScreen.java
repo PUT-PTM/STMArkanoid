@@ -41,11 +41,17 @@ public class MainMenuScreen implements Screen
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 400);
+        game.font.draw(game.batch, "Press 1 to play FREESTYLE mode!", 100, 400);
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+            game.setScreen(new GameScreen(game, 1));
+            dispose();
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2))
+        {
+            game.setScreen(new GameScreen(game, 2));
             dispose();
         }
 
