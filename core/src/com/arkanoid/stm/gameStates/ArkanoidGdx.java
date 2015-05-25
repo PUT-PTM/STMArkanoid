@@ -61,7 +61,7 @@ public class ArkanoidGdx extends Game
 		screenBoundries_Left= new Rectangle(0,0,1,800);
 		screenBoundries_Right= new Rectangle(600,0,1,800);
 
-		img = new Texture(Gdx.files.internal("core/assets/sprites/newBackground.jpg"));
+		img = new Texture(Gdx.files.internal("core/assets/sprites/backgrounds/newBackground.jpg"));
 
 		pipeBoard= new PipeBoard(250);
 		ball = new Balls(pipeBoard);
