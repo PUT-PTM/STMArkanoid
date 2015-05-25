@@ -1,54 +1,50 @@
 package com.arkanoid.stm.gameStates;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
+
 
 /**
- * Created by grzeprza on 2015-05-06.
+ * Created by grzeprza on 2015-05-20.
  */
-public class GameScreen implements Screen {
+public class Victory implements Screen
+{
+    public final ArkanoidGdx game;
+    private Sound victorySound;
+    private boolean timerIsOn = false;
 
-    final ArkanoidGdx game;
+    public Victory(ArkanoidGdx game)
+    {
+        this.game= game;
 
-    public GameScreen(ArkanoidGdx game, int mode) {
-        this.game = game;
-        game.initArkanoidPart(mode);
     }
 
     @Override
     public void show() {
-
+        victorySound= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/themes/victory/TriumphSound.mp3"));
+        victorySound.play();
     }
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
+
         game.batch.begin();
+
         game.batch.draw(game.img, 0, 0);
 
         game.pipeBoard.drawSprite(game.batch);
         game.ball.drawSprite(game.batch);
         game.blocks.drawBlocks(game.batch);
+        game.font.draw(game.batch, "WELL DONE!!", 150, 600);
 
         game.ball.update(Gdx.graphics.getDeltaTime());
         game.pipeBoard.update(Gdx.graphics.getDeltaTime());
 
         game.collision();
 
-        game.controls();
-
         game.batch.end();
-        // UPDATES
-
-
-        if(game.victory)
-        {
-
-            game.victory= false;
-            game.spacePressed=false;
-            game.setScreen(new Victory(game));
-            this.dispose();
-        }
     }
 
     @Override
@@ -73,6 +69,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        victorySound.dispose();
+        game.dispose();
     }
 }

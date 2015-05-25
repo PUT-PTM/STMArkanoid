@@ -23,6 +23,7 @@ public class Block  extends GameObject{
         Sprite sprite;
         Texture texture;
         ArrayList<Texture> textures;
+        boolean solid=false;
 
         Rectangle block_rectangle;
 
@@ -41,6 +42,7 @@ public class Block  extends GameObject{
             this.width = sizeX;
             this.height = sizeY;
             this.type = type;
+
 
             lifeCounter = type;
 
@@ -64,7 +66,7 @@ public class Block  extends GameObject{
                 case 1: texture = textures.get(0);break;
                 case 2: texture = textures.get(1);break;
                 case 3: texture = textures.get(2);break;
-                default:texture = textures.get(3);
+                default:{texture = textures.get(3);solid=true;}
             }
             sprite = new Sprite(texture);
             sprite.setSize(width, height);
@@ -79,7 +81,7 @@ public class Block  extends GameObject{
                 case 1:texture = textures.get(0);break; // block 1
                 case 2:texture = textures.get(1);break; // block 2
                 case 3:texture = textures.get(2);break; // block 3
-                default:texture= textures.get(3);break; // solid
+                default:{texture= textures.get(3);}break; // solid
             }
             sprite.setTexture(texture);
             sprite.draw(spriteBatch);
@@ -130,6 +132,6 @@ public class Block  extends GameObject{
         public void destroy()
         {
             for(Texture txture: textures)
-                if(lifeCounter>=0)txture.dispose();
+                if(lifeCounter>=0 && !solid)txture.dispose();
         }
 }

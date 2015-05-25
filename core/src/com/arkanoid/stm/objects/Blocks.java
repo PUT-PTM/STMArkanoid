@@ -179,15 +179,17 @@ public boolean findNumberOfBlocksInRow()
 
  public void destroy()
  {
-    Block block;
-    Iterator<Block> it= getActiveBlocksList().iterator();
-    while(it.hasNext())
-    {
-       block = it.next();
-       block.destroy();
-       it.remove();
-     }
+     Block block;
+     Iterator<Block> it;
+     if(!getPassiveBlocksList().isEmpty()) {
 
+         it = getActiveBlocksList().iterator();
+         while (it.hasNext()) {
+             block = it.next();
+             block.destroy();
+             it.remove();
+         }
+     }
     it= getPassiveBlocksList().iterator();
     while(it.hasNext())
     {

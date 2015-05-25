@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Iterator;
 
-//TODO moving ball different angles
+//TODO moving ball different angles - almost done
 //TODO Victory state
 //TODO music
 //TODO main menu
@@ -29,6 +29,9 @@ public class ArkanoidGdx extends Game
 	protected Texture img;
 	private Rectangle screenBoundries_Down,screenBoundries_Left,
 			screenBoundries_Up, screenBoundries_Right;
+
+	boolean victory= false;
+	boolean lose =false;
 
 	boolean spacePressed =false;
 
@@ -44,6 +47,7 @@ public class ArkanoidGdx extends Game
 		batch = new SpriteBatch();
 
 		font= new BitmapFont();
+		font.scale(2);
 
 		this.setScreen(new MainMenuScreen(this));
 
@@ -57,7 +61,7 @@ public class ArkanoidGdx extends Game
 		screenBoundries_Left= new Rectangle(0,0,1,800);
 		screenBoundries_Right= new Rectangle(600,0,1,800);
 
-		img = new Texture(Gdx.files.internal("core/assets/sprites/newBackground.jpg"));
+		img = new Texture(Gdx.files.internal("core/assets/sprites/backgrounds/newBackground.jpg"));
 
 		pipeBoard= new PipeBoard(250);
 		ball = new Balls(pipeBoard);
@@ -146,28 +150,37 @@ public class ArkanoidGdx extends Game
 	/**Block collision behavior. Includes part of ball behavior, because D.R.Y.*/
 	private void block()
 	{
-		Block block;
-		Iterator<Block> it= blocks.getActiveBlocksList().iterator();
-		while(it.hasNext()) {
-			block = it.next();
+		if(!blocks.getActiveBlocksList().isEmpty())
+		{
+			Block block;
+			Iterator<Block> it= blocks.getActiveBlocksList().iterator();
+			while(it.hasNext()) {
+				block = it.next();
 
-			if (block.collision(ball.horizontal) == 1) {
-				ball.collision(block.getBlock_rectangle());
-				ball.action(3, 1);
-				drawBlocks=true;
-				//break;
+				if (block.collision(ball.horizontal) == 1) {
+					ball.collision(block.getBlock_rectangle());
+					ball.action(3, 1);
+					drawBlocks=true;
+					//break;
+				}
+
+				if (block.collision(ball.vertical) == 1) {
+					ball.collision(block.getBlock_rectangle());
+					ball.action(2, 1);
+					drawBlocks = true;
+					//break;
+				}
+
+				if(block.lifeCounter <= 0) it.remove();
 			}
-
-			if (block.collision(ball.vertical) == 1) {
-				ball.collision(block.getBlock_rectangle());
-				ball.action(2, 1);
-				drawBlocks = true;
-				//break;
-			}
-
-			if(block.lifeCounter <= 0) it.remove();
 
 		}
+		else
+		{
+			victory=true;
+			//victory
+		}
+
 
 		for(Block passiveBlock: blocks.getPassiveBlocksList())
 		{
@@ -189,7 +202,7 @@ public class ArkanoidGdx extends Game
 		blocks.destroy();
 		pipeBoard.destroy();
 		ball.destroy();
-		batch.dispose();
+		//batch.dispose();
 	}
 
 }

@@ -45,7 +45,6 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     public int collision(Rectangle object)
     {
-        pipeCenter= this.getX() + sprite.getWidth()/2;
         if(pipeRectangle.overlaps(object))
         {
             pushBall= false;
@@ -73,7 +72,7 @@ public class PipeBoard extends GameObject implements PipeMovement
             pipeRectangle.y += veolocityY;
         }
         //System.out.println("Y= " + pipeRectangle.y);
-
+        pipeCenter= this.getX() + sprite.getWidth()/2;
         sprite.setPosition(getX(), getY());
     }
 

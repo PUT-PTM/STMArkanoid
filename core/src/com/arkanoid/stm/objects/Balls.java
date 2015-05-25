@@ -25,13 +25,11 @@ public class Balls extends GameObject {
 
     public Rectangle vertical,horizontal;   ShapeRenderer shapeRenderer;
 
-    protected int velocityY=0, velocityX = 0;
+    protected float velocityY=0, velocityX = 0;
 
     public Balls(PipeBoard pipeBoard)
     {
         this.pipeBoard = pipeBoard;
-        ballCenter_X = pipeBoard.texture.getWidth() * 2/5 + pipeBoard.getX();
-        ballCenter_Y = pipeBoard.texture.getHeight()* 5/4 + pipeBoard.getY();
 
         texture = new Texture(Gdx.files.internal("core/assets/sprites/balls/white_ball.gif"));
         sprite = new Sprite(texture);
@@ -39,12 +37,13 @@ public class Balls extends GameObject {
         bounce_1= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip1.mp3"));
         bounce_2= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip2.mp3"));
 
+        ballCenter_Y = pipeBoard.texture.getHeight()* 5/4 + pipeBoard.getY();
+        ballCenter_X = pipeBoard.texture.getWidth()/2-this.texture.getWidth()/2 + pipeBoard.getX();
         sprite.setPosition(ballCenter_X, ballCenter_Y);
 
         //ball collision borders
         vertical  = new Rectangle(sprite.getX()+ (float) (0.1)*sprite.getWidth(), sprite.getY()                                 ,sprite.getWidth()*(float) (0.8), sprite.getHeight());
         horizontal= new Rectangle(sprite.getX()                                  ,sprite.getY()+(float) (0.1)*sprite.getHeight(),sprite.getWidth()               , sprite.getHeight()*(float) (0.8) );
-
 
         shapeRenderer= new ShapeRenderer();
     }
@@ -59,23 +58,18 @@ public class Balls extends GameObject {
     /**Defines balls behavior*/
     public boolean action(int type, float newY)
     {
+
         if(type == 1)
         {
             velocityY = 5;
-            System.out.println("BallCent X= " + ballCenter_X + " | PipeCentX=  " + pipeBoard.pipeCenter + " | Angle= " + ballCenter_X /pipeBoard.pipeCenter);
-
-            if(pipeBoard.pipeCenter-ballCenter_X <0)
-            velocityX= (int) ((int)ballCenter_X/pipeBoard.pipeCenter/4*10);
-            else velocityX= (int) -((int)ballCenter_X/pipeBoard.pipeCenter/4*10);
-           /* if (ballCenter_X/pipeBoard.pipeCenter >= 0.90) {
-                velocityX = 4;
-            } else if(ballCenter_X/pipeBoard.pipeCenter <=0.70){
-                velocityX = -4;
-            }
-            else
-            {
+            //System.out.println(" | ball-pipe= "+ (ballCenter_X-pipeBoard.pipeCenter+this.texture.getWidth()/2));
+            if(pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2) > -2 && pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2) <2)
                 velocityX=0;
-            }*/
+            else
+            if(pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2)  > 0)
+            velocityX= -4;
+            else velocityX= 4;
+            //System.out.println(velocityX);
         }
         if(type == 2)
         {
@@ -95,15 +89,17 @@ public class Balls extends GameObject {
     {
         //Code below shows balls collision rectangle
 
-        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+       // shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         //shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
-        //shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
-        //shapeRenderer.end();
+       // shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
+       // shapeRenderer.rect(ballCenter_X+ this.texture.getWidth()/2,this.getY(),1,2*this.sprite.getHeight());
+       // shapeRenderer.end();
 
         if(!pipeBoard.ballMoved)
         {
-            ballCenter_X = pipeBoard.texture.getWidth() * 2/5 + pipeBoard.getX();
+            ballCenter_X = pipeBoard.texture.getWidth()/2-this.texture.getWidth() / 2 + pipeBoard.getX();
         }
+
         setPosition(ballCenter_X += velocityX, ballCenter_Y+= velocityY);
     }
 
@@ -152,11 +148,11 @@ public class Balls extends GameObject {
         texture.dispose();
     }
 
-    public int setVelX(int newVelX)
+    public float setVelX(float newVelX)
     {
         return this.velocityX= newVelX;
     }
-    public int setVelY(int newVelY)
+    public float setVelY(float newVelY)
     {
         return this.velocityY= newVelY;
     }
