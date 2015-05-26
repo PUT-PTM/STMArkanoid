@@ -40,7 +40,7 @@ public class ArkanoidGdx extends Game
 	Balls ball;
 	Blocks blocks;
 
-	boolean hitActive=false, hitPassive=false;  //these work as semaphor
+	// hitActive=false, hitPassive=false;  //these work as semaphor
 
 	int lifesLeft;
 

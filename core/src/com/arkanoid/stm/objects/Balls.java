@@ -45,6 +45,7 @@ public class Balls extends GameObject {
         vertical  = new Rectangle(sprite.getX()+ (float) (0.1)*sprite.getWidth(), sprite.getY()                                 ,sprite.getWidth()*(float) (0.8), sprite.getHeight());
         horizontal= new Rectangle(sprite.getX()                                  ,sprite.getY()+(float) (0.1)*sprite.getHeight(),sprite.getWidth()               , sprite.getHeight()*(float) (0.8) );
 
+
         shapeRenderer= new ShapeRenderer();
     }
 
@@ -69,6 +70,7 @@ public class Balls extends GameObject {
             if(pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2)  > 0)
             velocityX= -4;
             else velocityX= 4;
+
             //System.out.println(velocityX);
         }
         if(type == 2)
@@ -98,11 +100,11 @@ public class Balls extends GameObject {
     {
         //Code below shows balls collision rectangle
 
-        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        //shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
-       // shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
-        //shapeRenderer.rect(ballCenter_X+ this.texture.getWidth()/2,this.getY(),1,2*this.sprite.getHeight());
-        //shapeRenderer.end();
+       // shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+       // shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
+      // shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
+       // shapeRenderer.rect(ballCenter_X+ this.texture.getWidth()/2,this.getY(),1,2*this.sprite.getHeight());
+        shapeRenderer.end();
 
         if(!pipeBoard.ballMoved)
         {

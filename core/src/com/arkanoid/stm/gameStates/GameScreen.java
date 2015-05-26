@@ -40,10 +40,15 @@ public class GameScreen implements Screen {
         game.batch.end();
         // UPDATES
 
-
+        if(game.lifesLeft == 0)
+        {
+            game.victory= false;
+            game.spacePressed=false;
+            game.setScreen(new YouLose(game));
+            this.dispose();
+        }
         if(game.victory)
         {
-
             game.victory= false;
             game.spacePressed=false;
             game.setScreen(new Victory(game));
