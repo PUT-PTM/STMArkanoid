@@ -1,5 +1,6 @@
 package com.arkanoid.stm.objects;
 
+import com.arkanoid.stm.ScreenProperties;
 import com.arkanoid.stm.interfaces.GameObject;
 import com.arkanoid.stm.interfaces.PipeMovement;
 import com.badlogic.gdx.Gdx;
@@ -92,7 +93,7 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     public void moveRight(float delta)
     {
-        if (pipeRectangle.x <= 600 - pipeRectangle.getWidth())
+        if (pipeRectangle.x <= ScreenProperties.widthFit - pipeRectangle.getWidth())
             pipeRectangle.x += (200 * delta);
         sprite.setPosition(pipeRectangle.x, pipeRectangle.y);
       //   System.out.println(" RIGHT , x = " + pipeRectangle.x);

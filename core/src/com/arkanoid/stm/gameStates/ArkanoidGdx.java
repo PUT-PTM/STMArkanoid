@@ -1,5 +1,6 @@
 package com.arkanoid.stm.gameStates;
 
+import com.arkanoid.stm.ScreenProperties;
 import com.arkanoid.stm.objects.Balls;
 import com.arkanoid.stm.objects.Block;
 import com.arkanoid.stm.objects.Blocks;
@@ -16,15 +17,16 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.Iterator;
 
 //TODO moving ball different angles - almost done
-//TODO Victory state
+//TODO Victory state, possibly good
+//TODO autoFitScreen shazaam // tylko przez konstruktor, dobranoc
 //TODO music
 //TODO main menu
 //TODO loading lvl from file
 //TODO STM and JAVA
+
 public class ArkanoidGdx extends Game
 {
 	BitmapFont font;
-	private OrthographicCamera camera;
 	public SpriteBatch batch;
 	protected Texture img;
 	private Rectangle screenBoundries_Down,screenBoundries_Left,
@@ -56,14 +58,14 @@ public class ArkanoidGdx extends Game
 	protected void initArkanoidPart(int gameMode)
 	{
 		//Screen collision boundries
-		screenBoundries_Down = new Rectangle(0,0,600,1);
-		screenBoundries_Up = new Rectangle( 0,800,600,1);
-		screenBoundries_Left= new Rectangle(0,0,1,800);
-		screenBoundries_Right= new Rectangle(600,0,1,800);
+		screenBoundries_Down = new Rectangle(0,0,ScreenProperties.widthFit,1);
+		screenBoundries_Up = new Rectangle( 0,ScreenProperties.heightFit,ScreenProperties.widthFit,1);
+		screenBoundries_Left= new Rectangle(0,0,1,ScreenProperties.heightFit);
+		screenBoundries_Right= new Rectangle(ScreenProperties.widthFit,0,1,ScreenProperties.heightFit);
 
 		img = new Texture(Gdx.files.internal("core/assets/sprites/backgrounds/newBackground.jpg"));
 
-		pipeBoard= new PipeBoard(250);
+		pipeBoard= new PipeBoard(ScreenProperties.widthFit/2);
 		ball = new Balls(pipeBoard);
 
 		blocks= new Blocks();
