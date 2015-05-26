@@ -15,9 +15,9 @@ public class DesktopLauncher {
 		java.awt.Dimension screenSize= Toolkit.getDefaultToolkit().getScreenSize();
 		float proportion= (float) (600.0/800.0);
 		ScreenProperties screenProperties= new ScreenProperties();
-		screenProperties.widthFit= (int) ((screenSize.getHeight()-100) * proportion);
 		screenProperties.heightFit= (int) screenSize.getHeight()-100;
-		System.out.println(proportion);
+		screenProperties.widthFit= (int) (ScreenProperties.heightFit * proportion);
+
 		config.title = "ARKANOID # STM32f4 # PTM 2015 - Krasowski Mikolaj, Przadka Grzegorz";
 		config.width = screenProperties.widthFit;
 		config.height =  screenProperties.heightFit;

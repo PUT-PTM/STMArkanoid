@@ -18,8 +18,7 @@ import java.util.Iterator;
 
 //TODO moving ball different angles - almost done
 //TODO Victory state, possibly good
-//TODO autoFitScreen shazaam // tylko przez konstruktor, dobranoc
-//TODO music
+//TODO music - download and switch
 //TODO main menu
 //TODO loading lvl from file
 //TODO STM and JAVA
@@ -41,6 +40,10 @@ public class ArkanoidGdx extends Game
 	Balls ball;
 	Blocks blocks;
 
+	boolean hitActive=false, hitPassive=false;  //these work as semaphor
+
+	int lifesLeft;
+
 	public boolean drawBlocks=false;
 
 	@Override
@@ -59,10 +62,12 @@ public class ArkanoidGdx extends Game
 	{
 		//Screen collision boundries
 		screenBoundries_Down = new Rectangle(0,0,ScreenProperties.widthFit,1);
-		screenBoundries_Up = new Rectangle( 0,ScreenProperties.heightFit,ScreenProperties.widthFit,1);
+		screenBoundries_Up = new Rectangle(0,ScreenProperties.heightFit,ScreenProperties.widthFit,1);
 		screenBoundries_Left= new Rectangle(0,0,1,ScreenProperties.heightFit);
 		screenBoundries_Right= new Rectangle(ScreenProperties.widthFit,0,1,ScreenProperties.heightFit);
 
+		lifesLeft=3;
+		// switch do wyboru koloru tla
 		img = new Texture(Gdx.files.internal("core/assets/sprites/backgrounds/newBackground.jpg"));
 
 		pipeBoard= new PipeBoard(ScreenProperties.widthFit/2);
@@ -141,11 +146,16 @@ public class ArkanoidGdx extends Game
 		if(ball.collision(screenBoundries_Left) == 1 || ball.collision(screenBoundries_Right) == 1)
 		{
 			ball.action(3, 1);
-
 		}
-		if(ball.collision(screenBoundries_Up) == 1 || ball.collision(screenBoundries_Down) == 1)
+		if(ball.collision(screenBoundries_Up) == 1 )
 		{
 			ball.action(2, 1);
+		}
+		if(ball.collision(screenBoundries_Down) == 1)
+		{
+			ball.action(4,1);
+			spacePressed=false;
+			lifesLeft--;
 		}
 	}
 
@@ -154,6 +164,7 @@ public class ArkanoidGdx extends Game
 	{
 		if(!blocks.getActiveBlocksList().isEmpty())
 		{
+
 			Block block;
 			Iterator<Block> it= blocks.getActiveBlocksList().iterator();
 			while(it.hasNext()) {
@@ -163,24 +174,21 @@ public class ArkanoidGdx extends Game
 					ball.collision(block.getBlock_rectangle());
 					ball.action(3, 1);
 					drawBlocks=true;
-					//break;
 				}
 
 				if (block.collision(ball.vertical) == 1) {
 					ball.collision(block.getBlock_rectangle());
 					ball.action(2, 1);
 					drawBlocks = true;
-					//break;
+
 				}
 
 				if(block.lifeCounter <= 0) it.remove();
 			}
-
 		}
 		else
 		{
 			victory=true;
-			//victory
 		}
 
 
@@ -189,11 +197,13 @@ public class ArkanoidGdx extends Game
 			if (passiveBlock.collision(ball.horizontal) == 1) {
 				ball.collision(passiveBlock.getBlock_rectangle());
 				ball.action(3, 1);
+
 			}
 
 			if (passiveBlock.collision(ball.vertical) == 1) {
 				ball.collision(passiveBlock.getBlock_rectangle());
 				ball.action(2, 1);
+
 			}
 		}
 

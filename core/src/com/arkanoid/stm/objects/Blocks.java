@@ -108,7 +108,7 @@ public boolean findNumberOfBlocksInRow()
     int type= new Random().nextInt(4);
 
     //Positions single row- left center right;
-    this.addBlock(type,singleBlock_width*k,(singleBlock_height*i) + 400,singleBlock_width,singleBlock_height);
+    this.addBlock(type,singleBlock_width*k,(singleBlock_height*i) + ScreenProperties.heightFit/2,singleBlock_width,singleBlock_height);
 //    System.out.println("TYPE \t" + "pos_X \t" + "pos_Y \n" +
 //                       + type + "\t\t" + singleBlock_width*k + "\t" + (singleBlock_height*i + 200));
    }

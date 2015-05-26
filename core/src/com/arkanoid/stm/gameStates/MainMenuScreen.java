@@ -1,5 +1,6 @@
 package com.arkanoid.stm.gameStates;
 
+import com.arkanoid.stm.ScreenProperties;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -22,11 +23,12 @@ public class MainMenuScreen implements Screen
     public MainMenuScreen(ArkanoidGdx arkanoidGdx) {
         game = arkanoidGdx;
 
+        //switch do wyboru muzyki
         music= Gdx.audio.newMusic(Gdx.files.internal("core/assets/music/themes/mainMenu/SohnTremors.mp3"));
         music.setLooping(true);
 
         camera= new OrthographicCamera();
-        camera.setToOrtho(false, 600, 800);
+        camera.setToOrtho(false, ScreenProperties.widthFit, ScreenProperties.heightFit);
     }
 
     @Override
