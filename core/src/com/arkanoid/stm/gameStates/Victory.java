@@ -2,6 +2,7 @@ package com.arkanoid.stm.gameStates;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 
@@ -13,22 +14,27 @@ public class Victory implements Screen
 {
     public final ArkanoidGdx game;
     private Sound victorySound;
-    private boolean timerIsOn = false;
+
+    private long startTime, endTime;
+    private int countDown;
 
     public Victory(ArkanoidGdx game)
     {
         this.game= game;
-
+        countDown=6;
     }
 
     @Override
     public void show() {
         victorySound= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/themes/victory/TriumphSound.mp3"));
         victorySound.play();
+
+        startTime= System.currentTimeMillis()/1000;
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
 
         game.batch.begin();
 
@@ -38,6 +44,8 @@ public class Victory implements Screen
         game.ball.drawSprite(game.batch);
         game.blocks.drawBlocks(game.batch);
         game.font.draw(game.batch, "WELL DONE!!", 150, 600);
+        game.font.draw(game.batch, "Again? Press Space", 200, 500);
+        game.font.draw(game.batch, Integer.toString(countDown), 150, 300);
 
         game.ball.update(Gdx.graphics.getDeltaTime());
         game.pipeBoard.update(Gdx.graphics.getDeltaTime());
@@ -45,6 +53,22 @@ public class Victory implements Screen
         game.collision();
 
         game.batch.end();
+
+        endTime= System.currentTimeMillis()/1000;
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+        {
+            game.setScreen(new GameScreen(game,1));
+        }
+        if((startTime % 10) == endTime % 10)
+        {
+            ++startTime;
+            --countDown;
+            if(countDown == 0)
+            {
+                game.setScreen(new MainMenuScreen(game));
+            }
+        }
     }
 
     @Override

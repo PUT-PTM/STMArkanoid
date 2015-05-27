@@ -20,7 +20,7 @@ public class Balls extends GameObject {
     private Texture texture;
     private Sprite sprite;
 
-    private Sound bounce_1, bounce_2;
+    private Sound bounce_1, bounce_2, deathSound;
     boolean playFirst=false;
 
     public Rectangle vertical,horizontal;   ShapeRenderer shapeRenderer;
@@ -36,6 +36,8 @@ public class Balls extends GameObject {
 
         bounce_1= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip1.mp3"));
         bounce_2= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip2.mp3"));
+
+        deathSound= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/themes/death/dieLikePacman.mp3"));
 
         ballCenter_Y = pipeBoard.texture.getHeight()* 5/4 + pipeBoard.getY();
         ballCenter_X = pipeBoard.texture.getWidth()/2-this.texture.getWidth()/2 + pipeBoard.getX();
@@ -83,6 +85,7 @@ public class Balls extends GameObject {
         }
         if(type==4)
         {
+            deathSound.play();
             velocityX=0;
             velocityY=0;
             ballCenter_Y = pipeBoard.texture.getHeight()* 5/4 + pipeBoard.getY();
