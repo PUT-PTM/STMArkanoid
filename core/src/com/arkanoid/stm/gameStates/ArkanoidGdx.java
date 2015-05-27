@@ -15,10 +15,11 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Iterator;
 
+//still exists ball bug when hits between two blocks
 //TODO change textures , add more themes and background wallpaper
 //TODO loading lvl from file
 //TODO main menu
-//TODO STM and JAVA
+//TODO STM and JAVA -- JAVA ME 8 ?
 
 public class ArkanoidGdx extends Game
 {
@@ -36,8 +37,6 @@ public class ArkanoidGdx extends Game
 	PipeBoard pipeBoard;
 	Balls ball;
 	Blocks blocks;
-
-	// hitActive=false, hitPassive=false;  //these work as semaphor
 
 	int lifesLeft;
 

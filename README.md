@@ -8,11 +8,11 @@ You can easily compile,run and play with keyboard arrows.
 
 ### Arkanoid
 Arkanoid game is the most known( and old) game, after Pong, but not all of you may recognize it by the name.
-So check this [Arkanoid Screenshot]: http://bit.ly/ArkanoidScreenshot
+So check this [Arkanoid Screenshot](http://bit.ly/ArkanoidScreenshot)
 We've chosen this game, because it is simple and gives a lot of fun. 
 
 ### STM32f4
-I suggest refering to [Wiki]: http://en.wikipedia.org/wiki/STM32#STM32_F4 
+I suggest refering to [Wiki](http://en.wikipedia.org/wiki/STM32#STM32_F4)
 
 ##Instalation
 
@@ -28,7 +28,7 @@ Eclipse: You have to drag plugin from website and drop it on your already opened
          
          Then.. File -> Import -> Gradle -> Gradle Project -> (choose directory where the .zip was extracted) -> Build Model -> Press Finish or whatever to end.
          
-IntelliJ: Basicly the same, but less things to do.
+IntelliJ: Basicly the same, but less things to do. If you clone from repository, you later need to check two checkboxes- auto import and default root- and choose the highest possible period chekbox. I will give more accurate info later.
 
 NetBeans: Firstly plugin, if you don't have already. ( Tools -> Plugin -> Available Plugins -> Gradle)
           Check checkbox and install, agree - easy stuff.
