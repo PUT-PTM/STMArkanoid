@@ -1,6 +1,7 @@
 package com.arkanoid.stm.gameStates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
 /**
@@ -39,6 +40,12 @@ public class GameScreen implements Screen {
 
         game.batch.end();
         // UPDATES
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+            game.setScreen(new MainMenuScreen(game));
+            this.dispose();
+        }
 
         if(game.lifesLeft == 0)
         {

@@ -8,7 +8,6 @@ import com.arkanoid.stm.objects.PipeBoard;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -170,17 +169,16 @@ public class ArkanoidGdx extends Game
 			while(it.hasNext()) {
 				block = it.next();
 
-				if (block.collision(ball.horizontal) == 1) {
-					ball.collision(block.getBlock_rectangle());
-					ball.action(3, 1);
-					drawBlocks=true;
-				}
-
 				if (block.collision(ball.vertical) == 1) {
 					ball.collision(block.getBlock_rectangle());
 					ball.action(2, 1);
 					drawBlocks = true;
 
+				}
+				if (block.collision(ball.horizontal) == 1) {
+					ball.collision(block.getBlock_rectangle());
+					ball.action(3, 1);
+					drawBlocks=true;
 				}
 
 				if(block.lifeCounter <= 0) it.remove();
@@ -194,15 +192,13 @@ public class ArkanoidGdx extends Game
 
 		for(Block passiveBlock: blocks.getPassiveBlocksList())
 		{
-			if (passiveBlock.collision(ball.horizontal) == 1) {
-				ball.collision(passiveBlock.getBlock_rectangle());
-				ball.action(3, 1);
-
-			}
-
 			if (passiveBlock.collision(ball.vertical) == 1) {
 				ball.collision(passiveBlock.getBlock_rectangle());
 				ball.action(2, 1);
+			}
+			if (passiveBlock.collision(ball.horizontal) == 1) {
+				ball.collision(passiveBlock.getBlock_rectangle());
+				ball.action(3, 1);
 
 			}
 		}
