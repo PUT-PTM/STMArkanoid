@@ -65,15 +65,14 @@ public class Balls extends GameObject {
         if(type == 1)
         {
             velocityY = 5;
+            float tempVelX= (pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2)) /10;
             //System.out.println(" | ball-pipe= "+ (ballCenter_X-pipeBoard.pipeCenter+this.texture.getWidth()/2));
             if(pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2) > -2 && pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2) <2)
                 velocityX=0;
             else
-            if(pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2)  > 0)
-            velocityX= -4;
-            else velocityX= 4;
+            velocityX= -tempVelX;
 
-            //System.out.println(velocityX);
+            System.out.println(velocityX);
         }
         if(type == 2)
         {

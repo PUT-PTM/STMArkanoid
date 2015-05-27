@@ -8,6 +8,8 @@ import com.badlogic.gdx.audio.Sound;
 /**
  * Created by Grzegorz on 2015-05-26.
  */
+/**
+ * Provides lose screen. You can play again- you have 5 sec for choice, another way screen switches to menu.*/
 public class YouLose implements Screen
 {
 
@@ -53,8 +55,11 @@ public class YouLose implements Screen
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
         {
             game.setScreen(new GameScreen(game,1));
+            this.dispose();
         }
-        if((startTime % 10) == endTime % 10)
+
+        //Measures current system time and compares it
+        if(startTime % 10 == endTime % 10)
         {
             ++startTime;
             --countDown;
@@ -89,6 +94,6 @@ public class YouLose implements Screen
     @Override
     public void dispose() {
         youLoseSound.dispose();
-        game.dispose();
+       // game.dispose();
     }
 }

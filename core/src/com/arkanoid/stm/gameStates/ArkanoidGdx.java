@@ -15,11 +15,9 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Iterator;
 
-//TODO moving ball different angles - almost done
-//TODO Victory state, possibly good
-//TODO music - download and switch
-//TODO main menu
+//TODO change textures , add more themes and background wallpaper
 //TODO loading lvl from file
+//TODO main menu
 //TODO STM and JAVA
 
 public class ArkanoidGdx extends Game
@@ -158,7 +156,7 @@ public class ArkanoidGdx extends Game
 		}
 	}
 
-	/**Block collision behavior. Includes part of ball behavior, because D.R.Y.*/
+	/**Block collision behavior. Includes part of ball behavior.*/
 	private void block()
 	{
 		if(!blocks.getActiveBlocksList().isEmpty())
@@ -188,7 +186,6 @@ public class ArkanoidGdx extends Game
 		{
 			victory=true;
 		}
-
 
 		for(Block passiveBlock: blocks.getPassiveBlocksList())
 		{

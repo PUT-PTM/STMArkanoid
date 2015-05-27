@@ -7,6 +7,8 @@ import com.badlogic.gdx.Screen;
 /**
  * Created by grzeprza on 2015-05-06.
  */
+/**
+ * Provides playing screen. You can exit pressing 'Escape' to menu. You can lose and win.*/
 public class GameScreen implements Screen {
 
     final ArkanoidGdx game;

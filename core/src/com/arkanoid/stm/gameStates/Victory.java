@@ -10,6 +10,8 @@ import com.badlogic.gdx.audio.Sound;
 /**
  * Created by grzeprza on 2015-05-20.
  */
+/**
+ * Provides lose screen. You can play again- you have 5 sec for choice, another way screen switches to menu.*/
 public class Victory implements Screen
 {
     public final ArkanoidGdx game;
@@ -59,6 +61,7 @@ public class Victory implements Screen
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
         {
             game.setScreen(new GameScreen(game,1));
+            this.dispose();
         }
         if((startTime % 10) == endTime % 10)
         {
@@ -94,6 +97,6 @@ public class Victory implements Screen
     @Override
     public void dispose() {
         victorySound.dispose();
-        game.dispose();
+       // game.dispose();
     }
 }
