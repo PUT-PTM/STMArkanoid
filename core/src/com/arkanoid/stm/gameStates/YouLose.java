@@ -1,26 +1,25 @@
 package com.arkanoid.stm.gameStates;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 
-
 /**
- * Created by grzeprza on 2015-05-20.
+ * Created by Grzegorz on 2015-05-26.
  */
 /**
  * Provides lose screen. You can play again- you have 5 sec for choice, another way screen switches to menu.*/
-public class Victory implements Screen
+public class YouLose implements Screen
 {
+
     public final ArkanoidGdx game;
-    private Sound victorySound;
+    private Sound youLoseSound;
 
     private long startTime, endTime;
     private int countDown;
 
-    public Victory(ArkanoidGdx game)
+    public YouLose(ArkanoidGdx game)
     {
         this.game= game;
         countDown=6;
@@ -28,15 +27,15 @@ public class Victory implements Screen
 
     @Override
     public void show() {
-        victorySound= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/themes/victory/TriumphSound.mp3"));
-        victorySound.play();
+        youLoseSound = Gdx.audio.newSound(Gdx.files.internal("core/assets/music/themes/youLose/youLose.mp3"));
+        youLoseSound.play();
 
         startTime= System.currentTimeMillis()/1000;
+
     }
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
 
         game.batch.begin();
 
@@ -45,14 +44,9 @@ public class Victory implements Screen
         game.pipeBoard.drawSprite(game.batch);
         game.ball.drawSprite(game.batch);
         game.blocks.drawBlocks(game.batch);
-        game.font.draw(game.batch, "WELL DONE!!", 150, 600);
+        game.font.draw(game.batch, "LOOOSERR !!!!!", 150, 600);
         game.font.draw(game.batch, "Again? Press Space", 200, 500);
         game.font.draw(game.batch, Integer.toString(countDown), 150, 300);
-
-        game.ball.update(Gdx.graphics.getDeltaTime());
-        game.pipeBoard.update(Gdx.graphics.getDeltaTime());
-
-        game.collision();
 
         game.batch.end();
 
@@ -63,7 +57,9 @@ public class Victory implements Screen
             game.setScreen(new GameScreen(game,1));
             this.dispose();
         }
-        if((startTime % 10) == endTime % 10)
+
+        //Measures current system time and compares it
+        if(startTime % 10 == endTime % 10)
         {
             ++startTime;
             --countDown;
@@ -72,6 +68,7 @@ public class Victory implements Screen
                 game.setScreen(new MainMenuScreen(game));
             }
         }
+
     }
 
     @Override
@@ -96,7 +93,7 @@ public class Victory implements Screen
 
     @Override
     public void dispose() {
-        victorySound.dispose();
+        youLoseSound.dispose();
        // game.dispose();
     }
 }

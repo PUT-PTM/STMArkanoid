@@ -1,5 +1,6 @@
 package com.arkanoid.stm.objects;
 
+import com.arkanoid.stm.ScreenProperties;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.io.File;
@@ -30,8 +31,8 @@ public class Blocks
 
  public Blocks()
  {
-   activeBlocksList = new ArrayList<>();
-   passiveBlocksList= new ArrayList<>();
+   activeBlocksList = new ArrayList<Block>();
+   passiveBlocksList= new ArrayList<Block>();
 
   blocksInRowList = new ArrayList<Integer>();
 
@@ -107,7 +108,7 @@ public boolean findNumberOfBlocksInRow()
     int type= new Random().nextInt(4);
 
     //Positions single row- left center right;
-    this.addBlock(type,singleBlock_width*k,(singleBlock_height*i) + 400,singleBlock_width,singleBlock_height);
+    this.addBlock(type,singleBlock_width*k,(singleBlock_height*i) + ScreenProperties.heightFit/2,singleBlock_width,singleBlock_height);
 //    System.out.println("TYPE \t" + "pos_X \t" + "pos_Y \n" +
 //                       + type + "\t\t" + singleBlock_width*k + "\t" + (singleBlock_height*i + 200));
    }
@@ -134,8 +135,8 @@ public boolean findNumberOfBlocksInRow()
 
   System.out.println("Rows= " + rows + " Columns= " + columns);
 
-  singleBlock_width = (float) (600 / columns);
-  singleBlock_height = (float) (400 / rows);
+  singleBlock_width = (float) (ScreenProperties.widthFit / columns);
+  singleBlock_height = (float) ((ScreenProperties.heightFit/2) / rows);
 
 //  System.out.println("Block size: x " + singleBlock_width + " y= " + singleBlock_height);
 

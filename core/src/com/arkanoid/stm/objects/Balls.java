@@ -20,7 +20,7 @@ public class Balls extends GameObject {
     private Texture texture;
     private Sprite sprite;
 
-    private Sound bounce_1, bounce_2;
+    private Sound bounce_1, bounce_2, deathSound;
     boolean playFirst=false;
 
     public Rectangle vertical,horizontal;   ShapeRenderer shapeRenderer;
@@ -37,6 +37,8 @@ public class Balls extends GameObject {
         bounce_1= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip1.mp3"));
         bounce_2= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/balls/Blip2.mp3"));
 
+        deathSound= Gdx.audio.newSound(Gdx.files.internal("core/assets/music/themes/death/dieLikePacman.mp3"));
+
         ballCenter_Y = pipeBoard.texture.getHeight()* 5/4 + pipeBoard.getY();
         ballCenter_X = pipeBoard.texture.getWidth()/2-this.texture.getWidth()/2 + pipeBoard.getX();
         sprite.setPosition(ballCenter_X, ballCenter_Y);
@@ -44,6 +46,7 @@ public class Balls extends GameObject {
         //ball collision borders
         vertical  = new Rectangle(sprite.getX()+ (float) (0.1)*sprite.getWidth(), sprite.getY()                                 ,sprite.getWidth()*(float) (0.8), sprite.getHeight());
         horizontal= new Rectangle(sprite.getX()                                  ,sprite.getY()+(float) (0.1)*sprite.getHeight(),sprite.getWidth()               , sprite.getHeight()*(float) (0.8) );
+
 
         shapeRenderer= new ShapeRenderer();
     }
@@ -62,14 +65,14 @@ public class Balls extends GameObject {
         if(type == 1)
         {
             velocityY = 5;
+            float tempVelX= (pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2)) /10;
             //System.out.println(" | ball-pipe= "+ (ballCenter_X-pipeBoard.pipeCenter+this.texture.getWidth()/2));
             if(pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2) > -2 && pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2) <2)
                 velocityX=0;
             else
-            if(pipeBoard.pipeCenter-(ballCenter_X+ this.texture.getWidth()/2)  > 0)
-            velocityX= -4;
-            else velocityX= 4;
-            //System.out.println(velocityX);
+            velocityX= -tempVelX;
+
+            System.out.println(velocityX);
         }
         if(type == 2)
         {
@@ -78,6 +81,16 @@ public class Balls extends GameObject {
         if(type == 3)
         {
           bounceX();
+        }
+        if(type==4)
+        {
+            deathSound.play();
+            velocityX=0;
+            velocityY=0;
+            ballCenter_Y = pipeBoard.texture.getHeight()* 5/4 + pipeBoard.getY();
+            pipeBoard.pushBall=false;
+            pipeBoard.ballMoved=false;
+
         }
 
         return true;
@@ -90,10 +103,10 @@ public class Balls extends GameObject {
         //Code below shows balls collision rectangle
 
        // shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        //shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
-       // shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
+       // shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
+      // shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
        // shapeRenderer.rect(ballCenter_X+ this.texture.getWidth()/2,this.getY(),1,2*this.sprite.getHeight());
-       // shapeRenderer.end();
+        shapeRenderer.end();
 
         if(!pipeBoard.ballMoved)
         {

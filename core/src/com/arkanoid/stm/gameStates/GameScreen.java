@@ -1,11 +1,14 @@
 package com.arkanoid.stm.gameStates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
 /**
  * Created by grzeprza on 2015-05-06.
  */
+/**
+ * Provides playing screen. You can exit pressing 'Escape' to menu. You can lose and win.*/
 public class GameScreen implements Screen {
 
     final ArkanoidGdx game;
@@ -40,10 +43,21 @@ public class GameScreen implements Screen {
         game.batch.end();
         // UPDATES
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+            game.setScreen(new MainMenuScreen(game));
+            this.dispose();
+        }
 
+        if(game.lifesLeft == 0)
+        {
+            game.victory= false;
+            game.spacePressed=false;
+            game.setScreen(new YouLose(game));
+            this.dispose();
+        }
         if(game.victory)
         {
-
             game.victory= false;
             game.spacePressed=false;
             game.setScreen(new Victory(game));
