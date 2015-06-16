@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 /**
  * Created by Grzegorz on 2015-05-26.
  */
+
 /**
  * Provides lose screen. You can play again- you have 5 sec for choice, another way screen switches to menu.*/
 public class YouLose implements Screen
@@ -44,6 +45,7 @@ public class YouLose implements Screen
         game.pipeBoard.drawSprite(game.batch);
         game.ball.drawSprite(game.batch);
         game.blocks.drawBlocks(game.batch);
+
         game.font.draw(game.batch, "LOOOSERR !!!!!", 150, 600);
         game.font.draw(game.batch, "Again? Press Space", 200, 500);
         game.font.draw(game.batch, Integer.toString(countDown), 150, 300);

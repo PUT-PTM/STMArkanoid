@@ -1,6 +1,7 @@
 package com.arkanoid.stm.gameStates;
 
 
+import com.arkanoid.stm.ScreenProperties;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -45,14 +46,10 @@ public class Victory implements Screen
         game.pipeBoard.drawSprite(game.batch);
         game.ball.drawSprite(game.batch);
         game.blocks.drawBlocks(game.batch);
-        game.font.draw(game.batch, "WELL DONE!!", 150, 600);
+
+        game.font.draw(game.batch, "Winner !!!!!", 150, 600);
         game.font.draw(game.batch, "Again? Press Space", 200, 500);
         game.font.draw(game.batch, Integer.toString(countDown), 150, 300);
-
-        game.ball.update(Gdx.graphics.getDeltaTime());
-        game.pipeBoard.update(Gdx.graphics.getDeltaTime());
-
-        game.collision();
 
         game.batch.end();
 

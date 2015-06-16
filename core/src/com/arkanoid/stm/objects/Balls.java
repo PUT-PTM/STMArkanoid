@@ -102,9 +102,9 @@ public class Balls extends GameObject {
     {
         //Code below shows balls collision rectangle
 
-       // shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-       // shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
-      // shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
+       shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
+       shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
        // shapeRenderer.rect(ballCenter_X+ this.texture.getWidth()/2,this.getY(),1,2*this.sprite.getHeight());
         shapeRenderer.end();
 
