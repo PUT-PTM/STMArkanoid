@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -24,7 +25,7 @@ public class Balls extends GameObject {
     boolean playFirst=false;
 
     public Rectangle vertical,horizontal;   ShapeRenderer shapeRenderer;
-
+    public Circle ball_circle;
     protected float velocityY=0, velocityX = 0;
 
     public Balls(PipeBoard pipeBoard)
@@ -46,7 +47,6 @@ public class Balls extends GameObject {
         //ball collision borders
         vertical  = new Rectangle(sprite.getX()+ (float) (0.1)*sprite.getWidth(), sprite.getY()                                 ,sprite.getWidth()*(float) (0.8), sprite.getHeight());
         horizontal= new Rectangle(sprite.getX()                                  ,sprite.getY()+(float) (0.1)*sprite.getHeight(),sprite.getWidth()               , sprite.getHeight()*(float) (0.8) );
-
 
         shapeRenderer= new ShapeRenderer();
     }
@@ -106,6 +106,7 @@ public class Balls extends GameObject {
         shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
        shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
        // shapeRenderer.rect(ballCenter_X+ this.texture.getWidth()/2,this.getY(),1,2*this.sprite.getHeight());
+        shapeRenderer.circle(sprite.getX(), sprite.getY(), sprite.getHeight());
         shapeRenderer.end();
 
         if(!pipeBoard.ballMoved)
