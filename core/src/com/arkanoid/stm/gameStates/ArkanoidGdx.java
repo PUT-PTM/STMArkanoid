@@ -195,10 +195,8 @@ public class ArkanoidGdx extends Game
 			if (passiveBlock.collision(ball.horizontal) == 1) {
 				ball.collision(passiveBlock.getBlock_rectangle());
 				ball.action(3, 1);
-
 			}
 		}
-
 	}
 
 	public void dispose()

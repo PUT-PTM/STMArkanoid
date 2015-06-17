@@ -1,176 +1,94 @@
-package com.arkanoid.stm;
-
-import com.sun.swing.internal.plaf.synth.resources.synth_sv;
-import gnu.io.*;
+package com.arkanoid.stm; /**
+ * Created by grzeprza on 2015-06-17.
+ */
+import gnu.io.CommPort;
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.TooManyListenersException;
 
-/**
- * Created by Grzegorz on 2015-06-03.
- */
-public class STMControl implements SerialPortEventListener
-{
-    
-        //for containing the ports that will be found
-        private Enumeration ports = null;
-        //map the port names to CommPortIdentifiers
-        private HashMap portMap = new HashMap();
+public class STMControl {
 
-        //this is the object that contains the opened port
-        private CommPortIdentifier selectedPortIdentifier = null;
-        private SerialPort serialPort = null;
-
-        //input and output streams for sending and receiving data
-        private InputStream input = null;
-        private OutputStream output = null;
-
-        //just a boolean flag that i use for enabling
-        //and disabling buttons depending on whether the program
-        //is connected to a serial port or not
-        private boolean bConnected = false;
-
-        //the timeout value for connecting with the port
-        final static int TIMEOUT = 2000;
-
-        //some ascii values for for certain things
-        final static int SPACE_ASCII = 32;
-        final static int DASH_ASCII = 45;
-        final static int NEW_LINE_ASCII = 10;
-
-        private CommPortIdentifier comPort= null;
-
-        public void searchForPorts()
+        public STMControl()
         {
-            ports = CommPortIdentifier.getPortIdentifiers();
+            super();
+        }
 
-            while (ports.hasMoreElements())
-            {
-                CommPortIdentifier curPort = (CommPortIdentifier)ports.nextElement();
+        void connect(String portName) throws Exception {
+            CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+            if (portIdentifier.isCurrentlyOwned()) {
+                System.out.println("Error: Port is currently in use");
+            } else {
+                CommPort commPort = portIdentifier.open(this.getClass().getName(), 2000);
 
-                //get only serial ports
-                if (curPort.getPortType() == CommPortIdentifier.PORT_SERIAL)
-                {
-                    System.out.print(curPort.getName() + " ");
-                    comPort= curPort;
-                   // portMap.put(curPort.getName(), curPort);
+                if (commPort instanceof SerialPort) {
+                    SerialPort serialPort = (SerialPort) commPort;
+                    serialPort.setSerialPortParams(57600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+
+                    InputStream in = serialPort.getInputStream();
+                    OutputStream out = serialPort.getOutputStream();
+
+                    (new Thread(new SerialReader(in))).start();
+                    (new Thread(new SerialWriter(out))).start();
+
+                } else {
+                    System.out.println("Error: Only serial ports are handled by this example.");
                 }
             }
         }
 
-    public void connect()
-    {
-        String selectedPort = comPort.getName();
-       selectedPortIdentifier = (CommPortIdentifier) comPort;
+        /** */
+        public static class SerialReader implements Runnable {
+            InputStream in;
 
-        CommPort commPort = null;
+            public SerialReader(InputStream in) {
+                this.in = in;
+            }
 
-        try
-        {
-            //the method below returns an object of type CommPort
-            commPort = selectedPortIdentifier.open("COM_PORT", TIMEOUT);
-            //the CommPort object can be casted to a SerialPort object
-            serialPort = (SerialPort)commPort;
-
-             System.out.println(comPort.getName() + " opened successfully.");
-
+            public void run() {
+                byte[] buffer = new byte[1024];
+                int len = -1;
+                try {
+                    while ((len = this.in.read(buffer)) > -1) {
+                        System.out.print(new String(buffer, 0, len));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        catch (PortInUseException e)
-        {
-            System.err.println(selectedPort + " is in use. (" + e.toString() + ")");
 
+        /** */
+        public static class SerialWriter implements Runnable {
+            OutputStream out;
+
+            public SerialWriter(OutputStream out) {
+                this.out = out;
+            }
+
+            public void run() {
+                try {
+                    int c = 0;
+                    while ((c = System.in.read()) > -1) {
+                        this.out.write(c);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        catch (Exception e)
-        {
-            System.err.println("Failed to open " + selectedPort + "(" + e.toString() + ")");
-        }
-    }
 
-    //post: initialized input and output streams for use to communicate data
-    public boolean initIOStream()
-    {
-        //return value for whether opening the streams is successful or not
-        boolean successful = false;
-
-        try {
-            //
-            //input = serialPort.getInputStream();
-            output = serialPort.getOutputStream();
-     //       writeData(0, 0);
-
-            successful = true;
-            return successful;
-        }
-        catch (IOException e) {
-            System.out.println( "I/O Streams failed to open. (" + e.toString() + ")");
-            return successful;
-        }
-    }
-
-    //post: an event listener for the serial port that knows when data is received
-    public void initListener()
-    {
-        try
-        {
-            serialPort.addEventListener(this);
-            serialPort.notifyOnDataAvailable(true);
-        }
-        catch (TooManyListenersException e)
-        {
-           System.err.println("Too many listeners. (" + e.toString() + ")");
-
-        }
-    }
-
-    public void disconnect()
-    {
-        //close the serial port
-        try
-        {
-         //   writeData(0, 0);
-
-            serialPort.removeEventListener();
-            serialPort.close();
-            input.close();
-            output.close();
-            System.err.println("Disconnected").
-        }
-        catch (Exception e)
-        {
-            System.out.println( "Failed to close " + serialPort.getName()
-                    + "(" + e.toString() + ")");
-
-        }
-    }
-
-    //post: processing on the data it reads
-    public void serialEvent(SerialPortEvent evt) {
-        if (evt.getEventType() == SerialPortEvent.DATA_AVAILABLE)
+        public static void main ( String[] args )
         {
             try
             {
-                byte singleData = (byte)input.read();
-
-                if (singleData != NEW_LINE_ASCII)
-                {
-                  //  logText = new String(new byte[] {singleData});
-                    System.out.println("Odebrano: "+ new String(new byte[] {singleData}));
-                }
-                else
-                {
-                    System.out.println("Odebrano: EMPTY");
-                }
+                (new STMControl()).connect("COM4");
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
-                System.err.println("Failed to read data. (" + e.toString() + ")");
-
+                e.printStackTrace();
             }
         }
-    }
-    
 }
