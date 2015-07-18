@@ -48,6 +48,7 @@ public class MainMenuScreen implements Screen
         game.font.draw(game.batch, text_FreestyleMode, ScreenProperties.widthFit / 3 - (text_FreestyleMode.length() / 2), 600);
         game.font.draw(game.batch, text_hitSpace, ScreenProperties.widthFit/3-(text_hitSpace.length()/2), 550);
         //game.font.draw(game.batch, text_FreestyleMode, 300-(text_FreestyleMode.length()/2), 400);
+
         game.batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -61,10 +62,9 @@ public class MainMenuScreen implements Screen
             this.dispose();
         }
 
-        if((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))) {
-
+        if((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)))
+        {
             Gdx.app.exit();
-
         }
 
 

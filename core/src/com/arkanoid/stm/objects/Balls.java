@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -15,7 +17,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Balls extends GameObject {
 
     PipeBoard pipeBoard;
-    float ballCenter_X, ballCenter_Y;
+    public float ballCenter_X, ballCenter_Y;
 
     private Texture texture;
     private Sprite sprite;
@@ -23,8 +25,9 @@ public class Balls extends GameObject {
     private Sound bounce_1, bounce_2, deathSound;
     boolean playFirst=false;
 
-    public Rectangle vertical,horizontal;   ShapeRenderer shapeRenderer;
-
+    //public Rectangle vertical,horizontal;
+    ShapeRenderer shapeRenderer;
+    public Circle ball_circle;
     protected float velocityY=0, velocityX = 0;
 
     public Balls(PipeBoard pipeBoard)
@@ -44,8 +47,11 @@ public class Balls extends GameObject {
         sprite.setPosition(ballCenter_X, ballCenter_Y);
 
         //ball collision borders
-        vertical  = new Rectangle(sprite.getX()+ (float) (0.1)*sprite.getWidth(), sprite.getY()                                 ,sprite.getWidth()*(float) (0.8), sprite.getHeight());
-        horizontal= new Rectangle(sprite.getX()                                  ,sprite.getY()+(float) (0.1)*sprite.getHeight(),sprite.getWidth()               , sprite.getHeight()*(float) (0.8) );
+       // vertical  = new Rectangle(sprite.getX()+ (float) (0.1)*sprite.getWidth(), sprite.getY()                                 ,sprite.getWidth()*(float) (0.8), sprite.getHeight());
+       // horizontal= new Rectangle(sprite.getX()                                  ,sprite.getY()+(float) (0.1)*sprite.getHeight(),sprite.getWidth()               , sprite.getHeight()*(float) (0.8) );
+        ball_circle= new Circle();
+        ball_circle.setRadius(sprite.getHeight()/2);
+        ball_circle.setPosition(sprite.getX() + sprite.getWidth()/2, sprite.getY() + sprite.getHeight()/2);
 
 
         shapeRenderer= new ShapeRenderer();
@@ -72,7 +78,7 @@ public class Balls extends GameObject {
             else
             velocityX= -tempVelX;
 
-            System.out.println(velocityX);
+         //   System.out.println(velocityX);
         }
         if(type == 2)
         {
@@ -102,11 +108,12 @@ public class Balls extends GameObject {
     {
         //Code below shows balls collision rectangle
 
-       // shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+       //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
        // shapeRenderer.rect(vertical.getX(), vertical.getY(), vertical.getWidth(), vertical.getHeight());
       // shapeRenderer.rect(horizontal.getX(),horizontal.getY(),horizontal.getWidth(),horizontal.getHeight());
        // shapeRenderer.rect(ballCenter_X+ this.texture.getWidth()/2,this.getY(),1,2*this.sprite.getHeight());
-        shapeRenderer.end();
+       // shapeRenderer.circle(sprite.getX() + sprite.getWidth()/2, sprite.getY()+ sprite.getWidth()/2, sprite.getHeight()/2);
+       // shapeRenderer.end();
 
         if(!pipeBoard.ballMoved)
         {
@@ -119,7 +126,8 @@ public class Balls extends GameObject {
     @Override
     /**Detects collision -> returns 1. */
          public int collision(Rectangle rectangle) {
-        if(vertical.overlaps(rectangle) || horizontal.overlaps(rectangle))
+        //if(vertical.overlaps(rectangle) || horizontal.overlaps(rectangle))
+        if(Intersector.overlaps(this.ball_circle, rectangle))
         {
             if(playFirst)
             {
@@ -139,9 +147,11 @@ public class Balls extends GameObject {
     @Override
     /**Sets position of sprite and moves collision rectangle*/
     public void setPosition(float x, float y) {
-        vertical.setPosition(x + (float) (0.1)*sprite.getWidth() , y);
-        horizontal.setPosition(x, y +(float) (0.1) * sprite.getHeight());
+       // vertical.setPosition(x + (float) (0.1)*sprite.getWidth() , y);
+       // horizontal.setPosition(x, y +(float) (0.1) * sprite.getHeight());
         sprite.setPosition(x, y);
+
+        ball_circle.setPosition(sprite.getX() + sprite.getWidth()/2, sprite.getY() + sprite.getHeight()/2);
     }
 
     @Override

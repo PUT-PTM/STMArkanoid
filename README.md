@@ -28,7 +28,7 @@ Eclipse: You have to drag plugin from website and drop it on your already opened
          
          Then.. File -> Import -> Gradle -> Gradle Project -> (choose directory where the .zip was extracted) -> Build Model -> Press Finish or whatever to end.
          
-IntelliJ: Basicly the same, but less things to do.
+IntelliJ: Basicly the same, but less things to do. If you clone from repository, you later need to check two checkboxes- auto import and default root- and choose the highest possible period chekbox. I will give more accurate info later.
 
 NetBeans: Firstly plugin, if you don't have already. ( Tools -> Plugin -> Available Plugins -> Gradle)
           Check checkbox and install, agree - easy stuff.

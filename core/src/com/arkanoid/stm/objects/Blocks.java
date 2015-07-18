@@ -153,7 +153,7 @@ public boolean findNumberOfBlocksInRow()
 
   for(Block singleBlock: passiveBlocksList)
   {
-   singleBlock.drawSprite(spriteBatch);
+         singleBlock.drawSprite(spriteBatch);
   }
  }
 
