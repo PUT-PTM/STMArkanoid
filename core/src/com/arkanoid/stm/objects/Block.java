@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ public class Block  extends GameObject{
         boolean solid=false;
 
         Rectangle block_rectangle;
+        public Rectangle up, down, left, right;
 
         public Rectangle getBlock_rectangle(){ return this.block_rectangle;}
 
@@ -34,6 +38,7 @@ public class Block  extends GameObject{
         int type;
         public int lifeCounter;
 
+    ShapeRenderer sr;
 
         public Block(int type, float x, float y, float sizeX, float sizeY)
         {
@@ -56,6 +61,7 @@ public class Block  extends GameObject{
 
             block_rectangle = sprite.getBoundingRectangle();
 
+            sr= new ShapeRenderer();
         }
 
         /** Chooses the right type of block- 1, 2, 3 or 9 -solid */
@@ -71,7 +77,18 @@ public class Block  extends GameObject{
             sprite = new Sprite(texture);
             sprite.setSize(width, height);
             sprite.setPosition(x, y);
+
+            initCollisionLines();
         }
+
+    public void initCollisionLines()
+    {
+        up  = new Rectangle(this.x + 5,this.y +8 + this.height- 10,this.width - 10,1);
+        down= new Rectangle(this.x + 5,this.y +2 ,this.width - 10, 1);
+        left= new Rectangle(this.x + 2,this.y +5,1,this.height - 10);
+        right= new Rectangle(this.x + 8 + this.width - 10, this.y + 5, 1 , this.height - 10);
+
+    }
 
         @Override
         /** Draws sprite texture which is block-life dependent*/
@@ -85,6 +102,14 @@ public class Block  extends GameObject{
             }
             sprite.setTexture(texture);
             sprite.draw(spriteBatch);
+
+           /* sr.begin(ShapeRenderer.ShapeType.Line);
+            sr.rect(this.x + 5,this.y +8 + this.height- 10,this.width - 10,1);
+            sr.rect(this.x + 5,this.y +2 ,this.width - 10, 1);
+            sr.rect(this.x + 2,this.y +5,1,this.height - 10);
+            sr.rect(this.x + 8 + this.width - 10, this.y + 5, 1 , this.height - 10);
+            sr.end();
+            */
         }
 
         @Override
@@ -106,6 +131,17 @@ public class Block  extends GameObject{
         @Override
         public int collision(Rectangle rectangle) {
             if(block_rectangle.overlaps(rectangle)) {
+                action(1,1);
+                lifeCounter--;
+                return 1;
+            }
+            return 0;
+        }
+
+        public int collision(Circle circle)
+        {
+            if(Intersector.overlaps(circle, this.block_rectangle))
+            {
                 action(1,1);
                 lifeCounter--;
                 return 1;

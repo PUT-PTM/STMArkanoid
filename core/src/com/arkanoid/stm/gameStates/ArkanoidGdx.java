@@ -11,6 +11,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Iterator;
@@ -166,6 +167,7 @@ public class ArkanoidGdx extends Game
 			while(it.hasNext()) {
 				block = it.next();
 
+				/*
 				if (block.collision(ball.vertical) == 1) {
 					ball.collision(block.getBlock_rectangle());
 					ball.action(2, 1);
@@ -177,6 +179,35 @@ public class ArkanoidGdx extends Game
 					ball.action(3, 1);
 					drawBlocks=true;
 				}
+				*/
+				if( ball.collision(block.left) ==1 ){
+					block.collision(ball.ball_circle);
+					System.out.println("LEFT");
+					ball.action(3, 1);
+					drawBlocks = true;
+				}
+				else if( ball.collision(block.up) ==1 )
+				{
+					block.collision(ball.ball_circle);
+					System.out.println("UP ");
+					ball.action(2, 1);
+					drawBlocks = true;
+				}
+				if(ball.collision(block.right)==1)
+				{
+					block.collision(ball.ball_circle);
+					System.out.println("RIGHT");
+					ball.action(3, 1);
+					drawBlocks = true;
+				}
+				else if( ball.collision(block.down)==1 )
+				{
+					block.collision(ball.ball_circle);
+					System.out.println("DOWN ");
+					ball.action(2, 1);
+					drawBlocks = true;
+				}
+
 
 				if(block.lifeCounter <= 0) it.remove();
 			}
@@ -188,14 +219,42 @@ public class ArkanoidGdx extends Game
 
 		for(Block passiveBlock: blocks.getPassiveBlocksList())
 		{
-			if (passiveBlock.collision(ball.vertical) == 1) {
+			/*if (passiveBlock.collision(ball.vertical) == 1) {
 				ball.collision(passiveBlock.getBlock_rectangle());
 				ball.action(2, 1);
 			}
 			if (passiveBlock.collision(ball.horizontal) == 1) {
 				ball.collision(passiveBlock.getBlock_rectangle());
 				ball.action(3, 1);
+			}*/
+
+			if( ball.collision(passiveBlock.left) ==1 ){
+				passiveBlock.collision(ball.ball_circle);
+				System.out.println("LEFT");
+				ball.action(3, 1);
+				drawBlocks = true;
 			}
+			else if( ball.collision(passiveBlock.up) ==1 )
+			{
+				passiveBlock.collision(ball.ball_circle);
+				System.out.println("UP ");
+				ball.action(2, 1);
+				drawBlocks = true;
+			}
+			if(ball.collision(passiveBlock.right)==1)
+			{
+				passiveBlock.collision(ball.ball_circle);
+				System.out.println("RIGHT");
+				ball.action(3, 1);
+				drawBlocks = true;
+			}else if( ball.collision(passiveBlock.down)==1 )
+			{
+				passiveBlock.collision(ball.ball_circle);
+				System.out.println("DOWN ");
+				ball.action(2, 1);
+				drawBlocks = true;
+			}
+
 		}
 	}
 
