@@ -1,5 +1,6 @@
 package com.arkanoid.stm.desktop;
 
+import com.arkanoid.stm.STM.STMHandler;
 import com.arkanoid.stm.ScreenProperties;
 import com.arkanoid.stm.gameStates.ArkanoidGdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -24,6 +25,12 @@ public class DesktopLauncher {
 		config.resizable= false;
 		config.backgroundFPS=-1;
 
+
 		new LwjglApplication(new ArkanoidGdx(), config);
+		try {
+			(new STMHandler()).connect("COM4");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

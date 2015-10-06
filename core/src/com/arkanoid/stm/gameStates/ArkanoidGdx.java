@@ -11,8 +11,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import gnu.io.SerialPort;
 
 import java.util.Iterator;
 
@@ -31,9 +31,8 @@ public class ArkanoidGdx extends Game
 			screenBoundries_Up, screenBoundries_Right;
 
 	boolean victory= false;
-	boolean lose =false;
 
-	boolean spacePressed =false;
+	boolean spacePressed = false;
 
 	PipeBoard pipeBoard;
 	Balls ball;
@@ -42,6 +41,8 @@ public class ArkanoidGdx extends Game
 	int lifesLeft;
 
 	public boolean drawBlocks=false;
+
+	SerialPort serialPort;
 
 	@Override
 	public void create ()
@@ -54,7 +55,7 @@ public class ArkanoidGdx extends Game
 		this.setScreen(new MainMenuScreen(this));
 
 	}
-	/** Initializes balls, pipe, screen boundries*/
+	/** Initializes balls,  pipe, screen boundries*/
 	protected void initArkanoidPart(int gameMode)
 	{
 		//Screen collision boundries
@@ -263,6 +264,22 @@ public class ArkanoidGdx extends Game
 		blocks.destroy();
 		pipeBoard.destroy();
 		ball.destroy();
+		try
+		{
+			if (serialPort != null)
+			{
+				serialPort.removeEventListener();
+				serialPort.close();
+				serialPort.getInputStream().close();
+				serialPort.getOutputStream().close();
+
+			}
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+
+		}
 		//batch.dispose();
 	}
 
