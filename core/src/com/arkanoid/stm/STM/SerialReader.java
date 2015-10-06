@@ -4,6 +4,8 @@ package com.arkanoid.stm.STM;
  * Created by GrzegorzLap on 2015-10-05.
  */
 
+import com.arkanoid.stm.ScreenProperties;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.InputStream;
@@ -31,22 +33,45 @@ public class SerialReader implements Runnable {
 
                     DIVIDE = READ.substring(0, 1);
                     if (DIVIDE.substring(0, 1).equals("l")) {
-                      //  System.out.println("l");
+                        ScreenProperties.pipeVelocity = 200;
                         robot.keyPress(KeyEvent.VK_LEFT);
                         robot.keyRelease(KeyEvent.VK_RIGHT);
-                      //  robot.keyPress(KeyEvent.VK_RIGHT);
-                       // robot.keyRelease(Input.Keys.RIGHT);
-                        //robot.keyRelease(KeyEvent.VK_LEFT);
+
+                    }
+                    else if(DIVIDE.substring(0, 1).equals("m"))
+                    {
+                        ScreenProperties.pipeVelocity = 400;
+                        robot.keyPress(KeyEvent.VK_LEFT);
+                        robot.keyRelease(KeyEvent.VK_RIGHT);
+                    }
+                    else if(DIVIDE.substring(0, 1).equals("n"))
+                    {
+                        ScreenProperties.pipeVelocity = 600;
+                        robot.keyPress(KeyEvent.VK_LEFT);
+                        robot.keyRelease(KeyEvent.VK_RIGHT);
                     }
                     else if(DIVIDE.substring(0, 1).equals("r"))
                     {
-                        //System.out.println("r");
+                        ScreenProperties.pipeVelocity = 200;
                         robot.keyRelease(KeyEvent.VK_LEFT);
                         robot.keyPress(KeyEvent.VK_RIGHT);
-                        //robot.keyRelease(KeyEvent.VK_RIGHT);
+                      }
+                    else if(DIVIDE.substring(0, 1).equals("s"))
+                    {
+                        ScreenProperties.pipeVelocity = 400;
+                        robot.keyRelease(KeyEvent.VK_LEFT);
+                        robot.keyPress(KeyEvent.VK_RIGHT);
                     }
+                    else if(DIVIDE.substring(0, 1).equals("t"))
+                    {
+                        ScreenProperties.pipeVelocity = 600;
+                        robot.keyRelease(KeyEvent.VK_LEFT);
+                        robot.keyPress(KeyEvent.VK_RIGHT);
+                    }
+
                     else
                     {
+                        ScreenProperties.pipeVelocity = 0;
                         robot.keyRelease(KeyEvent.VK_RIGHT);
                         robot.keyRelease(KeyEvent.VK_LEFT);
                     }

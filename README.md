@@ -43,8 +43,24 @@ NOTE!!!! You won't have any imports .jpg .gif .mp3, so compilation will fail!! A
          
          IntelliJ IDE is smart enough, you won't have such problems as mentioned before.
 
+## STM32f4 installation
 
+You will need to install proper software. I suggest [CooCox CoIDE](http://www.coocox.org/software/coide.php) - which is free and really helpful when it comes to embedded software.
+To fully enjoy this software you will have to install first [GCC ARM](https://launchpad.net/gcc-arm-embedded/+download) and [STM Drivers](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF252419)
+(I hope this link will be enough. Sometimes you may have problem and you will be forced to look on your own.)
 
+In CoIDE you will need to create new Project -> select chip -> ST -> STM32F407VG.
+Then you will choose basic components from repository - check M4 CMSIS Core, CMSISI Boot, RCC, GPIO, EXTI, SPI, TIM, USART, MISC.
+You have to copy code from \core\src\com.arkanoid.stm\STM\stm43f4_discovery_code to main.c
+Last thing before compiling and loading code to your STM device.
+You need to right-click your project name in CooCox and 'Add Group' and 'Add Files' from same directory (\core\src\com.arkanoid.stm\STM\usb_conf and \core\src\com.arkanoid.stm\STM\usb_lib).
+Unfortunately you have to 'copy' them one by one.
 
- 
+### Futures TODOs
 
+Still exists ball bug - when it hits between two blocks.
+Change textures and add more themes and background wallpaper.
+Loading level from file.
+Adding other game modes.
+
+If you want to edit you may also need some additional software. I recommend [Herkules](http://hercules-setup.soft32.com/) and STMStudio. Enjoy and feel free to edit.

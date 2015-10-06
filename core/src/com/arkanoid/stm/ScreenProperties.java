@@ -6,4 +6,5 @@ package com.arkanoid.stm;
 public class ScreenProperties
 {
     public static int widthFit; public  static int heightFit;
+    public static int pipeVelocity=0;
 }

@@ -16,12 +16,6 @@ import gnu.io.SerialPort;
 
 import java.util.Iterator;
 
-//still exists ball bug when hits between two blocks
-//TODO 0 change textures , add more themes and background wallpaper
-//TODO 2 loading lvl from file
-//TODO 1 main menu
-//TODO 0 STM and JAVA
-
 public class ArkanoidGdx extends Game
 {
 	BitmapFont font;

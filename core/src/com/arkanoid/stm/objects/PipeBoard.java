@@ -26,7 +26,6 @@ public class PipeBoard extends GameObject implements PipeMovement
 
     public PipeBoard(float startX)
     {
-
         texture= new Texture(Gdx.files.internal("core/assets/sprites/pipes/pipe.gif"));
         sprite= new Sprite(texture);
         sprite.setPosition( startX , 0);
@@ -86,7 +85,7 @@ public class PipeBoard extends GameObject implements PipeMovement
     public void moveLeft(float delta)
     {
         if(pipeRectangle.x >= 0)
-             pipeRectangle.x -= (200 * delta);
+             pipeRectangle.x -= (ScreenProperties.pipeVelocity * delta);
         sprite.setPosition(pipeRectangle.x, pipeRectangle.y);
 
      //   System.out.println(" LEFT , x = " + pipeRectangle.x);
@@ -95,7 +94,7 @@ public class PipeBoard extends GameObject implements PipeMovement
     public void moveRight(float delta)
     {
         if (pipeRectangle.x <= ScreenProperties.widthFit - pipeRectangle.getWidth())
-            pipeRectangle.x += (200 * delta);
+            pipeRectangle.x += (ScreenProperties.pipeVelocity * delta);
         sprite.setPosition(pipeRectangle.x, pipeRectangle.y);
       //   System.out.println(" RIGHT , x = " + pipeRectangle.x);
     }
