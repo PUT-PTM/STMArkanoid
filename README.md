@@ -61,6 +61,6 @@ Unfortunately you have to 'copy' them one by one.
 Still exists ball bug - when it hits between two blocks.
 Change textures and add more themes and background wallpaper.
 Loading level from file.
-Adding other game modes.
+Adding other game modes .
 
 If you want to edit you may also need some additional software. I recommend [Herkules](http://hercules-setup.soft32.com/) and STMStudio. Enjoy and feel free to edit.
